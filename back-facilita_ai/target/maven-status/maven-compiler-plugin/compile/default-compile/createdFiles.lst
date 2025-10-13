@@ -1,12 +1,9 @@
 com\UFMSPetSistemas\getpet\model\repository\UsuarioRepository.class
-com\UFMSPetSistemas\getpet\GetpetApplication.class
-com\UFMSPetSistemas\getpet\controller\ServicoController.class
 com\UFMSPetSistemas\getpet\model\entities\Categoria.class
+com\UFMSPetSistemas\getpet\model\repository\ServicoRepository.class
+com\UFMSPetSistemas\getpet\model\repository\CategoriaRepository.class
+com\UFMSPetSistemas\getpet\GetpetApplication.class
 com\UFMSPetSistemas\getpet\model\entities\PrestacaoServico.class
 com\UFMSPetSistemas\getpet\model\entities\Servico.class
 com\UFMSPetSistemas\getpet\model\repository\PrestacaoServicoRepository.class
-com\UFMSPetSistemas\getpet\model\repository\ServicoRepository.class
-com\UFMSPetSistemas\getpet\controller\UsuarioController.class
-com\UFMSPetSistemas\getpet\model\repository\CategoriaRepository.class
 com\UFMSPetSistemas\getpet\model\entities\Usuario.class
-com\UFMSPetSistemas\getpet\controller\PrestacaoServicoController.class

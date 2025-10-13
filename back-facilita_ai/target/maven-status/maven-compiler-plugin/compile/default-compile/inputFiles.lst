@@ -1,12 +1,30 @@
-C:\Users\Caue Moraes\Dev_Projects\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\entities\Servico.java
-C:\Users\Caue Moraes\Dev_Projects\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\PrestacaoServicoController.java
-C:\Users\Caue Moraes\Dev_Projects\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\entities\Usuario.java
-C:\Users\Caue Moraes\Dev_Projects\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\UsuarioController.java
-C:\Users\Caue Moraes\Dev_Projects\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\GetpetApplication.java
-C:\Users\Caue Moraes\Dev_Projects\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\ServicoController.java
-C:\Users\Caue Moraes\Dev_Projects\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\entities\PrestacaoServico.java
-C:\Users\Caue Moraes\Dev_Projects\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\repository\CategoriaRepository.java
-C:\Users\Caue Moraes\Dev_Projects\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\entities\Categoria.java
-C:\Users\Caue Moraes\Dev_Projects\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\repository\PrestacaoServicoRepository.java
-C:\Users\Caue Moraes\Dev_Projects\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\repository\ServicoRepository.java
-C:\Users\Caue Moraes\Dev_Projects\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\repository\UsuarioRepository.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\categoria\dto\AtualizarCategoriaDTO.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\usuario\dto\UsuarioSimplificadoDTO.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\entities\PrestacaoServico.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\servico\dto\CadastroServicoDTO.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\usuario\UsuarioController.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\prestacaoServico\dto\PrestacaoServicoListDTO.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\prestacaoServico\PrestacaoServicoController.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\categoria\IntCategoriaController.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\repository\UsuarioRepository.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\repository\PrestacaoServicoRepository.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\usuario\dto\CadastroUsuarioDTO.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\usuario\IntUsuarioController.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\entities\Servico.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\categoria\dto\CadastroCategoriaDTO.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\servico\dto\AtualizarServicoDTO.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\config\WebConfig.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\servico\dto\ServicoSimplificadoDTO.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\categoria\CategoriaController.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\config\SwaggerConfig.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\repository\CategoriaRepository.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\prestacaoServico\dto\CadastrarPrestacaoServicoDTO.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\entities\Categoria.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\prestacaoServico\dto\AtualizarPrestacaoServicoDTO.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\GetpetApplication.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\servico\IntServicoController.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\repository\ServicoRepository.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\model\entities\Usuario.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\prestacaoServico\IntPrestacaoServicoController.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\servico\ServicoController.java
+C:\Users\Wolf\Desktop\facilitaai\facilita-ai-project\back-facilita_ai\src\main\java\com\UFMSPetSistemas\getpet\controller\usuario\dto\AtualizarUsuarioDTO.java
