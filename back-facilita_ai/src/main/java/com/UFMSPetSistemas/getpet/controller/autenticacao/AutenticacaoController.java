@@ -31,7 +31,6 @@ public class AutenticacaoController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AutenticacaoDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
-        System.out.println("aaaaaa" + data.login() + data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
         return ResponseEntity.ok().build();
@@ -43,7 +42,6 @@ public class AutenticacaoController {
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
         Usuario novoUsuario = new Usuario(data.login(), encryptedPassword, data.role());
-        System.out.println("aaaaaa" + data.login() + data.senha());
         this.repository.save(novoUsuario);
         return ResponseEntity.ok().build();
     }
