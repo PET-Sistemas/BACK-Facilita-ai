@@ -8,7 +8,6 @@ import com.UFMSPetSistemas.getpet.model.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,20 +21,17 @@ import org.springframework.security.authentication.AuthenticationManager;
 @RequestMapping("auth")
 public class AutenticacaoController {
 
-    private final AuthenticationManager authenticationManager;
 
     @Autowired
-    private final UsuarioRepository repository;
+    private AuthenticationManager authenticationManager;
 
-
-    public AutenticacaoController(AuthenticationManager authenticationManager,  UsuarioRepository repository,  PasswordEncoder passwordEncoder) {
-        this.authenticationManager = authenticationManager;
-        this.repository = repository;
-    }
+    @Autowired
+    private UsuarioRepository repository;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AutenticacaoDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
+        System.out.println("aaaaaa" + data.login() + data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
         return ResponseEntity.ok().build();
@@ -47,7 +43,7 @@ public class AutenticacaoController {
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
         Usuario novoUsuario = new Usuario(data.login(), encryptedPassword, data.role());
-
+        System.out.println("aaaaaa" + data.login() + data.senha());
         this.repository.save(novoUsuario);
         return ResponseEntity.ok().build();
     }
