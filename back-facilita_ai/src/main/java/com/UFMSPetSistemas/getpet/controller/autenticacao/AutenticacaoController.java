@@ -2,9 +2,11 @@ package com.UFMSPetSistemas.getpet.controller.autenticacao;
 
 
 import com.UFMSPetSistemas.getpet.controller.autenticacao.dto.AutenticacaoDTO;
+import com.UFMSPetSistemas.getpet.controller.autenticacao.dto.LoginResponseDTO;
 import com.UFMSPetSistemas.getpet.controller.autenticacao.dto.RegistroDTO;
 import com.UFMSPetSistemas.getpet.model.entities.Usuario;
 import com.UFMSPetSistemas.getpet.model.repository.UsuarioRepository;
+import com.UFMSPetSistemas.getpet.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,12 +30,17 @@ public class AutenticacaoController {
     @Autowired
     private UsuarioRepository repository;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AutenticacaoDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/register")

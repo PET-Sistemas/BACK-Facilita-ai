@@ -5,9 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="98b1ad3b-64e4-4725-a2e2-607fc6f66564" name="Changes" comment="Fix: Remoção de comentarios desnecessarios e formatação de repositorio de usuario pra funcionamento correto de controladora.&#10;Mudança no Dockerfile visando funcionamento correto">
+      <change afterPath="$PROJECT_DIR$/back-facilita_ai/src/main/java/com/UFMSPetSistemas/getpet/controller/autenticacao/dto/LoginResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-facilita_ai/src/main/java/com/UFMSPetSistemas/getpet/security/SecurityFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-facilita_ai/src/main/java/com/UFMSPetSistemas/getpet/security/TokenService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-facilita_ai/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-facilita_ai/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-facilita_ai/src/main/java/com/UFMSPetSistemas/config/SwaggerConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-facilita_ai/src/main/java/com/UFMSPetSistemas/getpet/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-facilita_ai/src/main/java/com/UFMSPetSistemas/getpet/security/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-facilita_ai/src/main/java/com/UFMSPetSistemas/getpet/controller/autenticacao/AutenticacaoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-facilita_ai/src/main/java/com/UFMSPetSistemas/getpet/controller/autenticacao/AutenticacaoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-facilita_ai/src/main/java/com/UFMSPetSistemas/getpet/model/entities/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/back-facilita_ai/src/main/java/com/UFMSPetSistemas/getpet/model/entities/Usuario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-facilita_ai/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/back-facilita_ai/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -249,7 +255,8 @@
       <workItem from="1759930252938" duration="25788000" />
       <workItem from="1760115344806" duration="2168000" />
       <workItem from="1760388616242" duration="216000" />
-      <workItem from="1760446646991" duration="3839000" />
+      <workItem from="1760446646991" duration="10663000" />
+      <workItem from="1760616171142" duration="9664000" />
     </task>
     <task id="LOCAL-00001" summary="Feat: Criação de repositorio para categoria">
       <option name="closed" value="true" />
