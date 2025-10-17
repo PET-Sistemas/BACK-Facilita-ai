@@ -2,6 +2,7 @@ package com.UFMSPetSistemas.getpet.model.entities;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import jakarta.validation.constraints.Pattern;
 import jakarta.persistence.*;
@@ -36,6 +37,7 @@ public class Usuario implements UserDetails {
 
     private String senha;
 
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     /* CONSTRUTORES */
@@ -58,10 +60,25 @@ public class Usuario implements UserDetails {
         this.senha = senha;
     }
 
-    public Usuario(String email, String senha, UserRole role) {
+    public Usuario(String email,
+                   String senha,
+                   UserRole role,
+                   String nomeCompleto,
+                   Date dataNascimento,
+                   String endereco,
+                   String cidade,
+                   String uf,
+                   String telefone) {
         this.email = email;
         this.senha = senha;
         this.role = role;
+        this.nomeCompleto = nomeCompleto;
+        this.dataNascimento = dataNascimento;
+        this.endereco = endereco;
+        this.cidade = cidade;
+        this.uf = uf;
+        this.telefone = telefone;
+
     }
 
     public Usuario() {
@@ -108,6 +125,14 @@ public class Usuario implements UserDetails {
 
     public String getTelefone() {
         return telefone;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     public String getSenha() {

@@ -1,5 +1,6 @@
 package com.UFMSPetSistemas.getpet.controller.autenticacao.dto;
 
-public record AutenticacaoDTO(String login, String senha) {
+import jakarta.validation.constraints.NotBlank;
 
+public record AutenticacaoDTO(@NotBlank String login, @NotBlank String senha) {
 }

@@ -2,11 +2,14 @@ package com.UFMSPetSistemas.getpet.controller.usuario;
 
 import com.UFMSPetSistemas.getpet.controller.usuario.dto.AtualizarUsuarioDTO;
 import com.UFMSPetSistemas.getpet.controller.usuario.dto.CadastroUsuarioDTO;
+import com.UFMSPetSistemas.getpet.controller.usuario.dto.ListarUsuariosDTO;
 import com.UFMSPetSistemas.getpet.model.entities.Usuario;
 import com.UFMSPetSistemas.getpet.model.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +38,7 @@ public class UsuarioController implements IntUsuarioController {
                     novoColaborador.senha()
             ));
             System.out.println("Usuário salvo: " + usuarioSalvo);
-            
+
             return ResponseEntity.created(URI.create("/categories/" + usuarioSalvo.getId())).body(usuarioSalvo);
         } catch (Exception e) {
             System.err.println("Erro ao salvar: " + e.getMessage());
@@ -48,18 +51,25 @@ public class UsuarioController implements IntUsuarioController {
     }
 
     @Override
-    public List<Usuario> listarUsuarios() {
-        return this.repo.findAll();
+    public ResponseEntity<List<ListarUsuariosDTO>> listarUsuarios() {
+
+        List<Usuario> usuarios = repo.findAll();
+        List<ListarUsuariosDTO> listaUsuarios = usuarios.stream()
+                .map(ListarUsuariosDTO::new)
+                .toList();
+
+        return ResponseEntity.ok(listaUsuarios);
     }
 
     @Override
     public ResponseEntity<?> buscarPorId(final Long id) {
-        try{
+        try {
             final Usuario usuario = this.repo
-                                        .findById(id)
-                                        .orElseThrow(() -> new RuntimeException(String.format("Usuario com id %d não encontrado", id)));
-            return ResponseEntity.ok(usuario);
-        }catch (Exception e){
+                    .findById(id)
+                    .orElseThrow(() -> new RuntimeException(String.format("Usuario com id %d não encontrado", id)));
+            ListarUsuariosDTO dto = new ListarUsuariosDTO(usuario);
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
             System.out.println("Erro ao buscar por id: " + e.getMessage());
             e.printStackTrace();
 
@@ -69,11 +79,14 @@ public class UsuarioController implements IntUsuarioController {
 
     @Override
     public ResponseEntity<?> buscarPorNome(final String nome) {
-        try{
+        try {
             final List<Usuario> usuarios = this.repo.findByNomeCompletoContaining(nome);
-
-            return ResponseEntity.ok(usuarios);
-        }catch (Exception e){
+            if (usuarios.isEmpty()) {return  ResponseEntity.notFound().build();}
+            List<ListarUsuariosDTO> listaUsuarios = usuarios.stream()
+                    .map(ListarUsuariosDTO::new)
+                    .toList();
+            return ResponseEntity.ok(listaUsuarios);
+        } catch (Exception e) {
             System.out.println("Erro ao buscar por nome: " + e.getMessage());
             e.printStackTrace();
 
@@ -83,11 +96,14 @@ public class UsuarioController implements IntUsuarioController {
 
     @Override
     public ResponseEntity<?> buscarPorEndereco(final String endereco) {
-        try{
+        try {
             final List<Usuario> usuarios = this.repo.findByEnderecoContaining(endereco);
-
-            return ResponseEntity.ok(usuarios);
-        }catch (Exception e){
+            if (usuarios.isEmpty()) {return  ResponseEntity.notFound().build();}
+            List<ListarUsuariosDTO> listaUsuarios = usuarios.stream()
+                    .map(ListarUsuariosDTO::new)
+                    .toList();
+            return ResponseEntity.ok(listaUsuarios);
+        } catch (Exception e) {
             System.out.println("Erro ao buscar por endereço: " + e.getMessage());
             e.printStackTrace();
 
@@ -102,14 +118,14 @@ public class UsuarioController implements IntUsuarioController {
             Usuario usuario = this.repo.findById(id).orElseThrow(() -> new Exception("Usuario com ID " + id + " não encontrado."));
 
             usuario.update(
-                newUsuario.nomeCompleto(),
-                newUsuario.dataNascimento(),
-                newUsuario.endereco(),
-                newUsuario.cidade(),
-                newUsuario.uf(),
-                newUsuario.email(),
-                newUsuario.telefone(),
-                newUsuario.senha()
+                    newUsuario.nomeCompleto(),
+                    newUsuario.dataNascimento(),
+                    newUsuario.endereco(),
+                    newUsuario.cidade(),
+                    newUsuario.uf(),
+                    newUsuario.email(),
+                    newUsuario.telefone(),
+                    newUsuario.senha()
             );
 
             Usuario usuarioSalvo = this.repo.save(usuario);
