@@ -99,3 +99,30 @@ yarn-error.log*
 *.bak
 *.swp
 *~
+
+# Build
+/target/
+/build/
+
+# Java class files
+*.class
+
+# Maven
+/.mvn/
+/.settings/
+
+# IntelliJ
+/.idea/
+/*.iml
+out/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Dependency caches / IDE specific
+/.idea/
+/*.iml
