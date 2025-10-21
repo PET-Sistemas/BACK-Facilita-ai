@@ -21,7 +21,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 
 @RestController
 @RequestMapping("auth")
-public class AutenticacaoController {
+public class AutenticacaoController implements IntAutenticacaoController {
 
 
     @Autowired
@@ -35,7 +35,7 @@ public class AutenticacaoController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AutenticacaoDTO data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
 
         var auth = this.authenticationManager.authenticate(usernamePassword);
         var token = tokenService.generateToken((Usuario) auth.getPrincipal());
@@ -45,10 +45,10 @@ public class AutenticacaoController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegistroDTO data) {
-        if (this.repository.findByEmail(data.login()) != null) return ResponseEntity.badRequest().build();
+        if (this.repository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
-        Usuario novoUsuario = new Usuario(data.login(), encryptedPassword, data.role(), data.nomeCompleto(), data.dataNascimento(), data.endereco(), data.cidade(), data.uf(), data.telefone());
+        Usuario novoUsuario = new Usuario(data.email(), encryptedPassword, data.role(), data.nomeCompleto(), data.dataNascimento(), data.endereco(), data.cidade(), data.uf(), data.telefone());
         this.repository.save(novoUsuario);
         return ResponseEntity.ok().build();
     }

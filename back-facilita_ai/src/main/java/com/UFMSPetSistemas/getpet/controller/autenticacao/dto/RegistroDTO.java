@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.util.Date;
 
-public record RegistroDTO(@NotBlank String login,
+public record RegistroDTO(@NotBlank String email,
 
                           @NotBlank String senha,
 
@@ -25,7 +25,7 @@ public record RegistroDTO(@NotBlank String login,
 
                           @NotBlank(message = "O estado (UF) é obrigatório.")
                           @JsonProperty("uf") String uf,
-                          
+
                           @NotBlank(message = "O telefone é obrigatório.")
                           @JsonProperty("telefone") String telefone
 ) {

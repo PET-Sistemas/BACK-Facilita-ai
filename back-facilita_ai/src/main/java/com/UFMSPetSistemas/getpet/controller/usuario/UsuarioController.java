@@ -23,34 +23,6 @@ public class UsuarioController implements IntUsuarioController {
     private UsuarioRepository repo;
 
     @Override
-    public ResponseEntity<?> cadastrarUsuario(final CadastroUsuarioDTO novoColaborador) {
-        System.out.println("Dados recebidos: " + novoColaborador);
-
-        try {
-            Usuario usuarioSalvo = this.repo.save(new Usuario(
-                    novoColaborador.nomeCompleto(),
-                    novoColaborador.dataNascimento(),
-                    novoColaborador.endereco(),
-                    novoColaborador.cidade(),
-                    novoColaborador.uf(),
-                    novoColaborador.email(),
-                    novoColaborador.telefone(),
-                    novoColaborador.senha()
-            ));
-            System.out.println("Usuário salvo: " + usuarioSalvo);
-
-            return ResponseEntity.created(URI.create("/categories/" + usuarioSalvo.getId())).body(usuarioSalvo);
-        } catch (Exception e) {
-            System.err.println("Erro ao salvar: " + e.getMessage());
-            e.printStackTrace();
-
-            return ResponseEntity.unprocessableEntity().body(Map.of(
-                    "errors", List.of(Map.of("message", e.getMessage()))
-            ));
-        }
-    }
-
-    @Override
     public ResponseEntity<List<ListarUsuariosDTO>> listarUsuarios() {
 
         List<Usuario> usuarios = repo.findAll();

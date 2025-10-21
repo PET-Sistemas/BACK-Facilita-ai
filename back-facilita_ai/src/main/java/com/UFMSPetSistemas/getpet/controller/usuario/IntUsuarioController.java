@@ -29,65 +29,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Usuário", description = "Endpoints para gerenciamento de usuários.")
 public interface IntUsuarioController {
 
-    @PostMapping(
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @Operation(
-            operationId = "cadastrarUsuario",
-            summary = "Cadastrar um novo usuário.",
-            description = "Recebe os dados de um novo usuário e o salva no banco de dados.",
-            tags = {"Usuário"},
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Dados do novo usuário",
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = Usuario.class),
-                            examples = @ExampleObject(
-                                    name = "Exemplo de usuário",
-                                    summary = "JSON válido para criação de usuário",
-                                    value = "{\n" +
-                                            "  \"nomeCompleto\": \"João da Silva\",\n" +
-                                            "  \"dataNascimento\": \"1990-01-01\",\n" +
-                                            "  \"endereco\": \"Rua das Flores, 123\",\n" +
-                                            "  \"cidade\": \"Campo Grande\",\n" +
-                                            "  \"uf\": \"MS\",\n" +
-                                            "  \"email\": \"joao@example.com\",\n" +
-                                            "  \"telefone\": \"67999998888\",\n" +
-                                            "  \"senha\": \"senha123\"\n" +
-                                            "}"
-                            )
-                    )
-            ),
-            responses = {
-                    @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso.", content = @Content(
-                            examples = {@ExampleObject(
-                                    name = "Novo Usuário Exemplo João",
-                                    summary = "",
-                                    description = "Usuário cadastrado com todos os campos preenchidos, mas serviços em null.",
-                                    value = "{" +
-                                            "  \"id\": 7,\n" +
-                                            "  \"nomeCompleto\": \"João da Silva\",\n" +
-                                            "  \"dataNascimento\": \"1990-01-01T00:00:00.000+00:00\",\n" +
-                                            "  \"endereco\": \"Rua das Flores, 123\",\n" +
-                                            "  \"cidade\": \"Campo Grande\",\n" +
-                                            "  \"uf\": \"MS\",\n" +
-                                            "  \"email\": \"joao@example.com\",\n" +
-                                            "  \"telefone\": \"67999998888\",\n" +
-                                            "  \"senha\": \"senha123\"\n" +
-                                            "}")
-                            },
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = Usuario.class)
-                    )
-                    ),
-                    @ApiResponse(responseCode = "400", description = "Json inválido."),
-            }
-    )
-    @ResponseBody
-    ResponseEntity<?> cadastrarUsuario(@RequestBody CadastroUsuarioDTO novoColaborador);
-
     @GetMapping(path = "/todos")
     @Operation(
             operationId = "listarUsuarios",
@@ -109,7 +50,7 @@ public interface IntUsuarioController {
                                             "    \"cidade\": \"Campo Grande\",\n" +
                                             "    \"uf\": \"MS\",\n" +
                                             "    \"email\": \"joao@example.com\",\n" +
-                                            "    \"telefone\": \"67999998888\",\n" +
+                                            "    \"telefone\": \"67999998888\"\n" +
                                             "  },\n" +
                                             "  {\n" +
                                             "    \"id\": 2,\n" +
@@ -119,7 +60,7 @@ public interface IntUsuarioController {
                                             "    \"cidade\": \"Campo Grande\",\n" +
                                             "    \"uf\": \"MS\",\n" +
                                             "    \"email\": \"joao@example.com\",\n" +
-                                            "    \"telefone\": \"67999998888\",\n" +
+                                            "    \"telefone\": \"67999998888\"\n" +
                                             "  }" +
                                             "]"
                             ),
