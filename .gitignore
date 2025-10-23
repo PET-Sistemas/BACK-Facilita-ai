@@ -108,7 +108,7 @@ yarn-error.log*
 *.class
 
 # Maven
-*/.mvn/
+/.mvn/
 /.settings/
 
 # IntelliJ
