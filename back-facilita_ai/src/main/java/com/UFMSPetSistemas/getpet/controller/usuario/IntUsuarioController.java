@@ -3,18 +3,16 @@ package com.UFMSPetSistemas.getpet.controller.usuario;
 import java.util.List;
 
 import com.UFMSPetSistemas.getpet.controller.usuario.dto.AtualizarUsuarioDTO;
-import com.UFMSPetSistemas.getpet.controller.usuario.dto.CadastroUsuarioDTO;
 import com.UFMSPetSistemas.getpet.controller.usuario.dto.ListarUsuariosDTO;
+import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import com.UFMSPetSistemas.getpet.model.entities.Usuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -147,14 +145,15 @@ public interface IntUsuarioController {
                                     name = "Exemplo de usuário",
                                     summary = "JSON válido para atualização de usuário",
                                     value = "{\n" +
-                                            "  \"nomeCompleto\": \"João da Silva Ilva\",\n" +
-                                            "  \"dataNascimento\": \"1990-01-01\",\n" +
-                                            "  \"endereco\": \"Rua das Flores, 123\",\n" +
+                                            "  \"email\": \"gabriel@email.com\",\n" +
+                                            "  \"senha\": \"senha123\",\n" +
+                                            "  \"role\": \"USER\",\n" +
+                                            "  \"nomeCompleto\": \"Gabriel da Silva\",\n" +
+                                            "  \"dataNascimento\": \"2000-01-01T00:00:00.000+00:00\",\n" +
+                                            "  \"endereco\": \"Rua ufms, 1\",\n" +
                                             "  \"cidade\": \"Campo Grande\",\n" +
                                             "  \"uf\": \"MS\",\n" +
-                                            "  \"email\": \"Tlq7t@example.com\",\n" +
-                                            "  \"telefone\": \"67999998888\",\n" +
-                                            "  \"senha\": \"senha123\"\n" +
+                                            "  \"telefone\": \"67999998888\"\n" +
                                             "}"
                             )
                     )
@@ -191,7 +190,7 @@ public interface IntUsuarioController {
                     @ApiResponse(responseCode = "422", description = "Erro ao atualizar usuário.")
             }
     )
-    public ResponseEntity<?> putUsuario(@RequestBody AtualizarUsuarioDTO newColaborador, @RequestParam Long id);
+    public ResponseEntity<?> putUsuario(@RequestBody @Valid AtualizarUsuarioDTO data, @RequestParam Long id);
 
     @DeleteMapping
     @Operation(

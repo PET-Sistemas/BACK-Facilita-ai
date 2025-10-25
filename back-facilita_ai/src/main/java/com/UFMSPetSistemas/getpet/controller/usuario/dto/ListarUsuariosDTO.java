@@ -6,7 +6,7 @@ import com.UFMSPetSistemas.getpet.model.entities.Usuario;
 import java.util.Date;
 
 public record ListarUsuariosDTO(Long id,
-                                String login,
+                                String email,
                                 UserRole role,
                                 String nomeCompleto,
                                 Date dataNascimento,

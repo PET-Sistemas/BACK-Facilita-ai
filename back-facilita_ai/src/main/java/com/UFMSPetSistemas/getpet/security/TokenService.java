@@ -17,6 +17,8 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
+    // cria e assina o token, o token é criado com validade de 2 horas e definido com o email do usuario como subject
+    // retorna o token
     public String generateToken(Usuario usuario) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -33,6 +35,8 @@ public class TokenService {
         }
     }
 
+    // Verifica se o token está expirado, foi assinado com a chave correta e o usuário que emitiu
+    // Retorna o email do usuário caso positivo
     public String validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -42,7 +46,7 @@ public class TokenService {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException exception) {
-            return "";
+            return "Token inválido, expirado ou adulterado";
         }
     }
 

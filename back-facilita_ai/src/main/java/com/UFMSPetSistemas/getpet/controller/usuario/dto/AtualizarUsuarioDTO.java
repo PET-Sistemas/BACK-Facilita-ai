@@ -1,24 +1,27 @@
 package com.UFMSPetSistemas.getpet.controller.usuario.dto;
 
+import com.UFMSPetSistemas.getpet.model.entities.UserRole;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.Date;
 
-public record AtualizarUsuarioDTO(
-        @JsonProperty("nomeCompleto") String nomeCompleto,
+public record AtualizarUsuarioDTO(String email,
 
-        @JsonProperty("dataNascimento") Date dataNascimento,
+                                  String senha,
 
-        @JsonProperty("endereco") String endereco,
+                                  UserRole role,
 
-        @JsonProperty("cidade") String cidade,
+                                  @JsonProperty("nomeCompleto") String nomeCompleto,
 
-        @JsonProperty("uf") String uf,
+                                  @JsonProperty("dataNascimento") Date dataNascimento,
 
-        @JsonProperty("email") String email,
+                                  @JsonProperty("endereco") String endereco,
 
-        @JsonProperty("telefone") String telefone,
+                                  @JsonProperty("cidade") String cidade,
 
-        @JsonProperty("senha") String senha
+                                  @JsonProperty("uf") String uf,
+
+                                  @JsonProperty("telefone") String telefone
 ) {
 }

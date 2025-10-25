@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
-
+                        // endpoints mapeados por permissão
                         .requestMatchers(HttpMethod.DELETE, "/categoria").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/categoria", "/categoria/id").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/categoria").hasRole("ADMIN")
@@ -55,7 +55,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/servico").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/servico/valor").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/servico/usuario-endereco").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/servico/todos").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/servico/todos").permitAll()
                         .requestMatchers(HttpMethod.GET, "/servico/id").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/servico/categoria/id").hasAnyRole("USER", "ADMIN")
 
@@ -69,6 +69,7 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    // retorna a senha criptografada
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
