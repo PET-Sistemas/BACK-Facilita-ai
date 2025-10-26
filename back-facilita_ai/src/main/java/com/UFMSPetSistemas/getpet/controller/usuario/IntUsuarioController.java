@@ -38,7 +38,6 @@ public interface IntUsuarioController {
                             examples = {@ExampleObject(
                                     name = "Ex. 1: Lista cheia de usuários",
                                     summary = "Lista de usuários com + de 1 usuário retornados.",
-                                    description = "",
                                     value = "[" +
                                             "  {" +
                                             "    \"id\": 1,\n" +
@@ -65,7 +64,6 @@ public interface IntUsuarioController {
                                     @ExampleObject(
                                             name = "Ex. 2: Lista vazia de usuários",
                                             summary = "Lista de usuários retornada vazia.",
-                                            description = "",
                                             value = "[" +
                                                     "]"
                                     )
@@ -73,7 +71,19 @@ public interface IntUsuarioController {
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = Usuario.class)
                     )
-                    ),
+                    ), @ApiResponse(responseCode = "403", description = "Usuário sem permissão.", content = @Content(
+                    examples = {@ExampleObject(
+                            name = "Erro de permissão",
+                            summary = "Usuário não possui permissão para realizar essa listagem.",
+                            description = "",
+                            value = "[" +
+                                    "]"
+                    )
+                    },
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = Usuario.class)
+            )
+            )
             }
     )
     public ResponseEntity<List<ListarUsuariosDTO>> listarUsuarios();
@@ -89,7 +99,16 @@ public interface IntUsuarioController {
             },
             responses = {
                     @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso.", content = @Content(schema = @Schema(implementation = Usuario.class))),
-                    @ApiResponse(responseCode = "400", description = "ID inválido.")
+                    @ApiResponse(responseCode = "400", description = "ID inválido."),
+                    @ApiResponse(responseCode = "403", description = "Usuário sem permissão.", content = @Content(
+                            examples = {@ExampleObject(
+                                    name = "Erro de permissão",
+                                    summary = "Usuário não possui permissão para realizar essa listagem.",
+                                    description = "",
+                                    value = "[" +
+                                            "]"
+                            )}
+                    ))
             }
     )
     public ResponseEntity<?> buscarPorId(@RequestParam Long id);
@@ -105,7 +124,16 @@ public interface IntUsuarioController {
             },
             responses = {
                     @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso.", content = @Content(schema = @Schema(implementation = Usuario.class))),
-                    @ApiResponse(responseCode = "400", description = "Nome inválido.")
+                    @ApiResponse(responseCode = "400", description = "Nome inválido."),
+                    @ApiResponse(responseCode = "403", description = "Usuário sem permissão.", content = @Content(
+                            examples = {@ExampleObject(
+                                    name = "Erro de permissão",
+                                    summary = "Usuário não possui permissão para realizar essa listagem.",
+                                    description = "",
+                                    value = "[" +
+                                            "]"
+                            )}
+                    ))
             }
     )
     public ResponseEntity<?> buscarPorNome(@RequestParam String nome);
@@ -121,7 +149,16 @@ public interface IntUsuarioController {
             },
             responses = {
                     @ApiResponse(responseCode = "200", description = "Usuário encontrado com sucesso.", content = @Content(schema = @Schema(implementation = Usuario.class))),
-                    @ApiResponse(responseCode = "400", description = "Endereço inválido.")
+                    @ApiResponse(responseCode = "400", description = "Endereço inválido."),
+                    @ApiResponse(responseCode = "403", description = "Usuário sem permissão.", content = @Content(
+                            examples = {@ExampleObject(
+                                    name = "Erro de permissão",
+                                    summary = "Usuário não possui permissão para realizar essa listagem.",
+                                    description = "",
+                                    value = "[" +
+                                            "]"
+                            )}
+                    ))
             }
     )
     public ResponseEntity<?> buscarPorEndereco(@RequestParam String endereco);
@@ -213,6 +250,15 @@ public interface IntUsuarioController {
                             schema = @Schema(implementation = Usuario.class)
                     )
                     ),
+                    @ApiResponse(responseCode = "403", description = "Usuário sem permissão.", content = @Content(
+                            examples = {@ExampleObject(
+                                    name = "Erro de permissão",
+                                    summary = "Usuário não possui permissão para realizar essa operação.",
+                                    description = "",
+                                    value = "[" +
+                                            "]"
+                            )}
+                    ))
             }
     )
     public void deleteColaborador(@RequestParam Long id);
