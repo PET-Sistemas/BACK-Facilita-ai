@@ -40,7 +40,7 @@ public interface IntAutenticacaoController {
                                             "  \"senha\": \"senha123\",\n" +
                                             "  \"role\": \"USER\",\n" +
                                             "  \"nomeCompleto\": \"Gabriel da Silva\",\n" +
-                                            "  \"dataNascimento\": \"2000-01-01T00:00:00.000+00:00\",\n" +
+                                            "  \"dataNascimento\": \"2000-01-01\",\n" +
                                             "  \"endereco\": \"Rua ufms, 1\",\n" +
                                             "  \"cidade\": \"Campo Grande\",\n" +
                                             "  \"uf\": \"MS\",\n" +
@@ -63,7 +63,7 @@ public interface IntAutenticacaoController {
                                                     "  \"senha\": \"senha123\",\n" +
                                                     "  \"role\": \"USER\",\n" +
                                                     "  \"nomeCompleto\": \"Gabriel da Silva\",\n" +
-                                                    "  \"dataNascimento\": \"2000-01-01T00:00:00.000+00:00\",\n" +
+                                                    "  \"dataNascimento\": \"2000-01-01\",\n" +
                                                     "  \"endereco\": \"Rua ufms, 1\",\n" +
                                                     "  \"cidade\": \"Campo Grande\",\n" +
                                                     "  \"uf\": \"MS\",\n" +
