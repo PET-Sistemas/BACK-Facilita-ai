@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -24,7 +25,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
@@ -35,7 +36,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/categoria").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.DELETE, "/usuario").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/usuario/todos", "/usuario/nome", "/usuario/endereco").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/usuario/todos", "/usuario/nome", "/usuario/endereco")
+                        .hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/usuario/id").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/usuario").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/usuario").hasAnyRole("USER", "ADMIN")
@@ -65,7 +67,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
