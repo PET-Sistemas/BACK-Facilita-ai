@@ -1,4 +1,4 @@
-package com.UFMSPetSistemas.getpet.security;
+package com.UFMSPetSistemas.getpet.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
