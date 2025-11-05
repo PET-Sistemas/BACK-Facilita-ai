@@ -32,7 +32,7 @@ public class SecurityConfig {
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                         // endpoints mapeados por permissão
                         .requestMatchers(HttpMethod.DELETE, "/categoria").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/categoria", "/categoria/id").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/categoria/todas", "/categoria/id").permitAll()
                         .requestMatchers(HttpMethod.POST, "/categoria").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/categoria").hasRole("ADMIN")
 
