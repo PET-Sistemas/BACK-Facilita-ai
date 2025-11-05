@@ -1,5 +1,6 @@
 package com.UFMSPetSistemas.getpet.controller.servico;
 
+import com.UFMSPetSistemas.getpet.controller.servico.dto.ServicoResponseDTO;
 import com.UFMSPetSistemas.getpet.controller.servico.dto.AtualizarServicoDTO;
 import com.UFMSPetSistemas.getpet.controller.servico.dto.CadastroServicoDTO;
 import com.UFMSPetSistemas.getpet.model.entities.Servico;
@@ -14,14 +15,16 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
-public class ServicoController implements IntServicoController{
+public class ServicoController implements IntServicoController {
     private final ServicoRepository servicoRepository;
     private final CategoriaRepository categoriaRepository;
     private final UsuarioRepository usuarioRepository;
 
-    public ServicoController(ServicoRepository servicoRepository, CategoriaRepository categoriaRepository, UsuarioRepository usuarioRepository) {
+    public ServicoController(ServicoRepository servicoRepository, CategoriaRepository categoriaRepository,
+            UsuarioRepository usuarioRepository) {
         this.servicoRepository = servicoRepository;
         this.categoriaRepository = categoriaRepository;
         this.usuarioRepository = usuarioRepository;
@@ -45,23 +48,16 @@ public class ServicoController implements IntServicoController{
 
             Optional<Usuario> usuarioPrestador = usuarioRepository.findById(servicoDTO.usuarioPrestadorID());
 
-            if(usuarioPrestador.isEmpty()){
+            if (usuarioPrestador.isEmpty()) {
                 return ResponseEntity.badRequest().body("Usuario prestador não encontrado!"); // Usuario não encontrado
             }
-
-//            Optional<Usuario> usuarioConsumidor = usuarioRepository.findById(servicoDTO.usuarioConsumidorID());
-//
-//            if(usuarioConsumidor.isEmpty()){
-//                return ResponseEntity.badRequest().body("Usuario consumidor não encontrado!"); // Usuario não encontrado
-//            }
 
             Servico servicoSalvo = this.servicoRepository.save(new Servico(
                     servicoDTO.titulo(),
                     servicoDTO.descricao(),
                     servicoDTO.valor(),
                     categoria.get(),
-                    usuarioPrestador.get()
-            ));
+                    usuarioPrestador.get()));
 
             System.out.println("Servico salvo: " + servicoSalvo);
 
@@ -71,14 +67,19 @@ public class ServicoController implements IntServicoController{
             e.printStackTrace();
 
             return ResponseEntity.unprocessableEntity().body(Map.of(
-                    "errors", List.of(Map.of("message", e.getMessage()))
-            ));
+                    "errors", List.of(Map.of("message", e.getMessage()))));
         }
     }
 
     @Override
-    public List<Servico> getAllServicos() {
-        return servicoRepository.findAll();
+    public List<ServicoResponseDTO> getAllServicos() {
+        return servicoRepository.findAll().stream()
+                .map(servico -> new ServicoResponseDTO(
+                        servico.getTitulo(),
+                        servico.getDescricao(),
+                        servico.getValor(),
+                        servico.getCategoria().getTitulo())) // Adicionado o nome da categoria
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -104,7 +105,8 @@ public class ServicoController implements IntServicoController{
     }
 
     @Override
-    public ResponseEntity<Servico> updateServico(@PathVariable Long id, @RequestBody AtualizarServicoDTO servicoAtualizadoDTO) {
+    public ResponseEntity<Servico> updateServico(@PathVariable Long id,
+            @RequestBody AtualizarServicoDTO servicoAtualizadoDTO) {
         Optional<Servico> servicoExistente = servicoRepository.findById(id);
         Optional<Categoria> categoria = categoriaRepository.findById(servicoAtualizadoDTO.categoriaID());
         Optional<Usuario> usuarioPrestador = usuarioRepository.findById(servicoAtualizadoDTO.usuarioPrestadorID());
@@ -144,5 +146,3 @@ public class ServicoController implements IntServicoController{
         return ResponseEntity.notFound().build();
     }
 }
-
-

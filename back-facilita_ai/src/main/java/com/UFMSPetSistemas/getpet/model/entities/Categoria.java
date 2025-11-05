@@ -1,14 +1,13 @@
 package com.UFMSPetSistemas.getpet.model.entities;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-public class Categoria{
+public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; 
+    private Long id;
 
     @NotBlank(message = "O título deve ser informado")
     private String titulo;
@@ -17,19 +16,20 @@ public class Categoria{
         this.titulo = titulo;
     }
 
-    public Categoria(){}
+    public Categoria() {
+    }
 
     // GETTERS
-    public Long getId(){
+    public Long getId() {
         return id;
     }
 
-    public String getTitulo(){
+    public String getTitulo() {
         return titulo;
     }
 
     // SETTERS
-    public void setTitulo(String titulo){
+    public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
 }

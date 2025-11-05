@@ -2,6 +2,7 @@ package com.UFMSPetSistemas.getpet.controller.categoria;
 
 import com.UFMSPetSistemas.getpet.controller.categoria.dto.AtualizarCategoriaDTO;
 import com.UFMSPetSistemas.getpet.controller.categoria.dto.CadastroCategoriaDTO;
+import com.UFMSPetSistemas.getpet.controller.categoria.dto.CategoriaResponseDTO;
 import com.UFMSPetSistemas.getpet.model.entities.Categoria;
 import com.UFMSPetSistemas.getpet.model.repository.CategoriaRepository;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class CategoriaController implements IntCategoriaController {
@@ -27,13 +29,13 @@ public class CategoriaController implements IntCategoriaController {
 
         try {
             // Verificar se a categoria já existe pelo título
-//            if (categoriaRepository.existsByTitulo(categoriaDTO.titulo())) {
-//                return ResponseEntity.badRequest().body(null); // Categoria não informada ou inválida
-//            }
+            // if (categoriaRepository.existsByTitulo(categoriaDTO.titulo())) {
+            // return ResponseEntity.badRequest().body(null); // Categoria não informada ou
+            // inválida
+            // }
 
             Categoria categoriaSalva = this.categoriaRepository.save(new Categoria(
-                    categoriaDTO.titulo()
-            ));
+                    categoriaDTO.titulo()));
 
             System.out.println("Categoria salva: " + categoriaSalva);
 
@@ -43,14 +45,15 @@ public class CategoriaController implements IntCategoriaController {
             e.printStackTrace();
 
             return ResponseEntity.unprocessableEntity().body(Map.of(
-                    "errors", List.of(Map.of("message", e.getMessage()))
-            ));
+                    "errors", List.of(Map.of("message", e.getMessage()))));
         }
     }
 
     @Override
-    public List<Categoria> getAllCategorias() {
-        return categoriaRepository.findAll();
+    public List<CategoriaResponseDTO> getAllCategorias() {
+        return categoriaRepository.findAll().stream()
+                .map(categoria -> new CategoriaResponseDTO(categoria.getTitulo()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -60,7 +63,8 @@ public class CategoriaController implements IntCategoriaController {
     }
 
     @Override
-    public ResponseEntity<Categoria> updateCategoria(@PathVariable Long id, @RequestBody AtualizarCategoriaDTO atualizarCategoriaDTO) {
+    public ResponseEntity<Categoria> updateCategoria(@PathVariable Long id,
+            @RequestBody AtualizarCategoriaDTO atualizarCategoriaDTO) {
         Optional<Categoria> categoriaExistente = categoriaRepository.findById(id);
 
         if (categoriaExistente.isPresent()) {
@@ -88,5 +92,3 @@ public class CategoriaController implements IntCategoriaController {
         return ResponseEntity.notFound().build();
     }
 }
-
-
