@@ -28,24 +28,24 @@ public interface IntServicoController {
         @Operation(operationId = "cadastrarServico", summary = "Cadastrar um novo servico.", description = "Recebe os dados de um novo servico e o salva no banco de dados.", tags = {
                         "Serviço" }, requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Dados do novo servico", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = Servico.class), examples = @ExampleObject(name = "Exemplo de serviço", summary = "JSON válido para criação de serviço", value = "{\n"
                                         +
-                                        "  \"titulo\": \"Servico1\",\n" +
-                                        "  \"descricao\": \"Servico legal.\",\n" +
-                                        "  \"valor\": \"123\",\n" +
-                                        "  \"categoriaId\": \"1\",\n" +
-                                        "  \"usuarioPrestadorId\": \"1\"\n" +
+                                        "  \"titulo\": \"Servico de Pintura\",\n" +
+                                        "  \"descricao\": \"Pintura de paredes com tinta acrílica.\",\n" +
+                                        "  \"valor\": 150.00,\n" +
+                                        "  \"categoriaNome\": \"Pintura\",\n" +
+                                        "  \"usuarioPrestadorId\": 1\n" +
                                         "}"))), responses = {
                                                         @ApiResponse(responseCode = "201", description = "Servico cadastrado com sucesso.", content = @Content(examples = {
                                                                         @ExampleObject(name = "Novo Serviço Exemplo", summary = "", description = "Serviço cadastrado com todos os campos", value = "{"
                                                                                         +
                                                                                         "  \"id\": 1,\n" +
-                                                                                        "  \"titulo\": \"Servico1\",\n"
+                                                                                        "  \"titulo\": \"Servico de Pintura\",\n"
                                                                                         +
-                                                                                        "  \"descricao\": \"Servico legal.\",\n"
+                                                                                        "  \"descricao\": \"Pintura de paredes com tinta acrílica.\",\n"
                                                                                         +
-                                                                                        "  \"valor\": \"123\",\n" +
-                                                                                        "  \"categoriaId\": 1,\n" +
-                                                                                        "  \"usuarioPrestadorId\": 1\n"
+                                                                                        "  \"valor\": 150.00,\n" +
+                                                                                        "  \"categoria\": { \"id\": 1, \"titulo\": \"Pintura\" },\n"
                                                                                         +
+                                                                                        "  \"usuarioPrestadorId\": 1\n" +
                                                                                         "}")
                                                         }, mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Usuario.class))),
                                                         @ApiResponse(responseCode = "400", description = "Json inválido."),
@@ -61,18 +61,18 @@ public interface IntServicoController {
                                                         @ExampleObject(name = "Ex. 1: Lista cheia de serviços", summary = "Lista de serviços com + de 1 serviço retornados.", description = "", value = "["
                                                                         +
                                                                         "  {" +
-                                                                        "    \"id\": 1,\n" +
-                                                                        "    \"titulo\": \"Servico1\",\n" +
-                                                                        "    \"descricao\": \"Servico legal.\",\n" +
-                                                                        "    \"valor\": \"123\",\n" +
-                                                                        "    \"usuarioPrestadorId\": 1\n" +
+                                                                        "    \"titulo\": \"Servico de Pintura\",\n" +
+                                                                        "    \"descricao\": \"Pintura de paredes com tinta acrílica.\",\n"
+                                                                        +
+                                                                        "    \"valor\": 150.00,\n" +
+                                                                        "    \"categoriaNome\": \"Pintura\"\n" +
                                                                         "  },\n" +
                                                                         "  {\n" +
-                                                                        "     \"id\": 2,\n" +
-                                                                        "    \"titulo\": \"Servico2\",\n" +
-                                                                        "    \"descricao\": \"Servico legal.\",\n" +
-                                                                        "    \"valor\": \"123\",\n" +
-                                                                        "    \"usuarioPrestadorId\": 2\n" +
+                                                                        "    \"titulo\": \"Servico de Limpeza\",\n" +
+                                                                        "    \"descricao\": \"Limpeza completa de apartamento.\",\n"
+                                                                        +
+                                                                        "    \"valor\": 200.00,\n" +
+                                                                        "    \"categoriaNome\": \"Limpeza\"\n" +
                                                                         "  }" +
                                                                         "]"),
                                                         @ExampleObject(name = "Ex. 2: Lista vazia de serviços", summary = "Lista de serviços retornada vazia.", description = "", value = "["
@@ -139,8 +139,8 @@ public interface IntServicoController {
                                         +
                                         "  \"titulo\": \"Servico1 Atualizado\",\n" +
                                         "  \"descricao\": \"Servico legal atualizado.\",\n" +
-                                        "  \"valor\": \"123\",\n" +
-                                        "  \"categoriaId\": 1,\n" +
+                                        "  \"valor\": 123.45,\n" +
+                                        "  \"categoriaNome\": \"Manutenção\",\n" +
                                         "  \"usuarioPrestadorId\": 1\n" +
                                         "}"))), responses = {
                                                         @ApiResponse(responseCode = "200", description = "Servico atualizado com sucesso.", content = @Content(examples = {
@@ -151,8 +151,9 @@ public interface IntServicoController {
                                                                                         +
                                                                                         "  \"descricao\": \"Servico legal atualizado.\",\n"
                                                                                         +
-                                                                                        "  \"valor\": \"123\",\n" +
-                                                                                        "  \"categoriaId\": 1,\n" +
+                                                                                        "  \"valor\": 123.45,\n" +
+                                                                                        "  \"categoria\": { \"id\": 2, \"titulo\": \"Manutenção\" },\n"
+                                                                                        +
                                                                                         "  \"usuarioPrestadorId\": 1\n"
                                                                                         +
                                                                                         "}"),
