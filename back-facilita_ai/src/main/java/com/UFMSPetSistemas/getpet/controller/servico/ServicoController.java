@@ -35,21 +35,20 @@ public class ServicoController implements IntServicoController {
         System.out.println("Dados recebidos: " + servicoDTO);
 
         try {
-            // Verificar se o ID da categoria foi enviado e se é válido
-            if (servicoDTO.categoriaID() == null || servicoDTO.categoriaID() == null) {
-                return ResponseEntity.badRequest().body(null); // Categoria não informada ou inválida
+            if (servicoDTO.categoriaNome() == null || servicoDTO.categoriaNome().isBlank()) {
+                return ResponseEntity.badRequest().body("Nome da categoria não informado ou inválido.");
             }
 
-            Optional<Categoria> categoria = categoriaRepository.findById(servicoDTO.categoriaID());
+            Optional<Categoria> categoria = categoriaRepository.findByTitulo(servicoDTO.categoriaNome());
 
             if (categoria.isEmpty()) {
-                return ResponseEntity.badRequest().body("Categoria não encontrada!"); // Categoria não encontrada
+                return ResponseEntity.badRequest().body("Categoria não encontrada!");
             }
 
             Optional<Usuario> usuarioPrestador = usuarioRepository.findById(servicoDTO.usuarioPrestadorID());
 
             if (usuarioPrestador.isEmpty()) {
-                return ResponseEntity.badRequest().body("Usuario prestador não encontrado!"); // Usuario não encontrado
+                return ResponseEntity.badRequest().body("Usuario prestador não encontrado!");
             }
 
             Servico servicoSalvo = this.servicoRepository.save(new Servico(
@@ -61,7 +60,7 @@ public class ServicoController implements IntServicoController {
 
             System.out.println("Servico salvo: " + servicoSalvo);
 
-            return ResponseEntity.created(URI.create("/categories/" + servicoSalvo.getId())).body(servicoSalvo);
+            return ResponseEntity.created(URI.create("/servicos/" + servicoSalvo.getId())).body(servicoSalvo);
         } catch (Exception e) {
             System.err.println("Erro ao salvar: " + e.getMessage());
             e.printStackTrace();
