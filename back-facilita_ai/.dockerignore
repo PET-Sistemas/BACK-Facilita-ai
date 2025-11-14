@@ -1,0 +1,21 @@
+# Ignora a pasta de build do Maven
+target/
+
+# Ignora logs
+*.log
+
+# Ignora arquivos de configuração do IDE
+.idea/
+.vscode/
+*.iml
+
+# Ignora o histórico do Git
+.git
+.gitignore
+
+# Ignora arquivos de variáveis de ambiente
+.env
+
+# Ignora os próprios arquivos do Docker
+Dockerfile
+.dockerignore

@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/categoria").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/categoria").hasRole("ADMIN")
 
+                        .requestMatchers(HttpMethod.GET, "/usuario/me").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/usuario").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/usuario/todos", "/usuario/nome", "/usuario/endereco")
                         .hasRole("ADMIN")
@@ -44,6 +45,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/usuario").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+
 
                         .requestMatchers(HttpMethod.DELETE, "/prestacoes-servico").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/prestacoes-servico").hasRole("ADMIN")

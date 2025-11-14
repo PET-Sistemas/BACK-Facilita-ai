@@ -2,6 +2,7 @@ services:
   db:
     image: postgres:16
     container_name: getpet_db
+    restart: always
     environment:
       POSTGRES_USER: getpet
       POSTGRES_PASSWORD: getpet
@@ -14,6 +15,7 @@ services:
     build:
       context: ./back-facilita_ai
     container_name: getpet_api
+    restart: always
     environment:
       DATABASE_HOST: db
       DATABASE_PORT: 5432
@@ -27,7 +29,19 @@ services:
     depends_on:
       - db
 
+  frontend:
+    build: ../FRONT-Facilita-ai
+    container_name: getpet_frontend
+    restart: always
+    ports:
+      - "8081:80"
+    depends_on:
+      - api
+    networks:
+      - app-network
 
+volumes:
+  postgres-data:
 
 networks:
   app-network:

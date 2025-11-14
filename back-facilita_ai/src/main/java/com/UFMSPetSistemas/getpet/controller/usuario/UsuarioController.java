@@ -5,6 +5,7 @@ import com.UFMSPetSistemas.getpet.controller.usuario.dto.ListarUsuariosDTO;
 import com.UFMSPetSistemas.getpet.model.entities.Usuario;
 import com.UFMSPetSistemas.getpet.model.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -23,7 +24,6 @@ public class UsuarioController implements IntUsuarioController {
 
     @Override
     public ResponseEntity<List<ListarUsuariosDTO>> listarUsuarios() {
-
         List<Usuario> usuarios = repo.findAll();
         List<ListarUsuariosDTO> listaUsuarios = usuarios.stream()
                 .map(ListarUsuariosDTO::new)
@@ -86,6 +86,7 @@ public class UsuarioController implements IntUsuarioController {
         }
     }
 
+    @Override
     public ResponseEntity<?> putUsuario(final AtualizarUsuarioDTO data, final Long id) {
         try {
             Usuario usuario = this.repo.findById(id).orElseThrow(() -> new Exception("Usuario com ID " + id + " não encontrado."));
@@ -112,6 +113,12 @@ public class UsuarioController implements IntUsuarioController {
 
             return ResponseEntity.unprocessableEntity().body(e.getMessage());
         }
+    }
+
+    @Override
+    public ResponseEntity<?> buscarLogado(@AuthenticationPrincipal Usuario usuarioLogado) {
+        var listarUsuariosDTO = new ListarUsuariosDTO(usuarioLogado);
+        return ResponseEntity.ok(listarUsuariosDTO);
     }
 
     @Override

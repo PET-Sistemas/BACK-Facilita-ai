@@ -113,6 +113,31 @@ public interface IntUsuarioController {
     )
     public ResponseEntity<?> buscarPorId(@RequestParam Long id);
 
+    @GetMapping(path = "/me")
+    @Operation(
+            operationId = "Mostrar informações do usuário logado",
+            summary = "Mostrar informações do usuário logado",
+            description = "",
+            tags = {"Usuário"},
+            parameters = {
+                    @Parameter(in = ParameterIn.PATH, name = "id", description = "ID do usuário a ser buscado", required = true)
+            },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso.", content = @Content(schema = @Schema(implementation = Usuario.class))),
+                    @ApiResponse(responseCode = "400", description = "ID inválido."),
+                    @ApiResponse(responseCode = "403", description = "Usuário sem permissão.", content = @Content(
+                            examples = {@ExampleObject(
+                                    name = "Erro de permissão",
+                                    summary = "Usuário não possui permissão para realizar essa listagem.",
+                                    description = "",
+                                    value = "[" +
+                                            "]"
+                            )}
+                    ))
+            }
+    )
+    public ResponseEntity<?> buscarLogado(Usuario usuarioLogado);
+
     @GetMapping(path = "/nome")
     @Operation(
             operationId = "buscarPorNome",
