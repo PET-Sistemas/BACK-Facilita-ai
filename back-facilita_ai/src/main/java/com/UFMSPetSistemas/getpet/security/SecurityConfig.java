@@ -59,7 +59,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/servico/valor").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/servico/usuario-endereco").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/servico/todos").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/servico/id").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/servico/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/servico/categoria/id").hasAnyRole("USER", "ADMIN")
 
                         .anyRequest().authenticated())

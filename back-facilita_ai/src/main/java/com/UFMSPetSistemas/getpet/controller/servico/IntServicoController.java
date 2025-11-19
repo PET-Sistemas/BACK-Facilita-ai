@@ -2,6 +2,7 @@ package com.UFMSPetSistemas.getpet.controller.servico;
 
 import com.UFMSPetSistemas.getpet.controller.servico.dto.AtualizarServicoDTO;
 import com.UFMSPetSistemas.getpet.controller.servico.dto.CadastroServicoDTO;
+import com.UFMSPetSistemas.getpet.controller.servico.dto.ServicoDetalhadoDTO;
 import com.UFMSPetSistemas.getpet.controller.servico.dto.ServicoResponseDTO;
 import com.UFMSPetSistemas.getpet.model.entities.Servico;
 import com.UFMSPetSistemas.getpet.model.entities.Usuario;
@@ -83,15 +84,30 @@ public interface IntServicoController {
         public List<ServicoResponseDTO> getAllServicos();
 
         // Buscar serviço por ID
-        @GetMapping("/id")
-        @Operation(operationId = "buscarPorId", summary = "Buscar servico por ID", description = "Busca um servico pelo seu ID.", tags = {
+        @GetMapping("/{id}")
+        @Operation(operationId = "buscarPorId", summary = "Buscar servico detalhado por ID", description = "Busca um servico pelo seu ID e retorna seus detalhes, incluindo informações do prestador.", tags = {
                         "Serviço" }, parameters = {
-                                        @Parameter(in = ParameterIn.PATH, name = "id", description = "ID do servico a ser buscado", required = true)
+                                        @Parameter(in = ParameterIn.PATH, name = "id", description = "ID do servico a ser buscado", required = true, schema = @Schema(type = "integer", format = "int64"))
                         }, responses = {
-                                        @ApiResponse(responseCode = "200", description = "Servico retornado com sucesso.", content = @Content(schema = @Schema(implementation = Usuario.class))),
-                                        @ApiResponse(responseCode = "400", description = "ID inválido.")
+                                        @ApiResponse(responseCode = "200", description = "Servico retornado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ServicoDetalhadoDTO.class), examples = @ExampleObject(value = "{\n"
+                                                        +
+                                                        "  \"id\": 1,\n" +
+                                                        "  \"titulo\": \"Montador de Móveis\",\n" +
+                                                        "  \"descricao\": \"Montagem profissional de todos os tipos de móveis.\",\n"
+                                                        +
+                                                        "  \"valor\": 550.00,\n" +
+                                                        "  \"prestador\": {\n" +
+                                                        "    \"nome\": \"Alexandre Soares\",\n" +
+                                                        "    \"enderecoCompleto\": \"Rua 11 de setembro, nº 70, Campo Grande - MS\",\n"
+                                                        +
+                                                        "    \"telefoneWhatsapp\": \"+5567999440350\",\n" +
+                                                        "    \"mediaAvaliacoes\": 3.5,\n" +
+                                                        "    \"totalAvaliacoes\": 15\n" +
+                                                        "  }\n" +
+                                                        "}"))),
+                                        @ApiResponse(responseCode = "404", description = "Serviço não encontrado.")
                         })
-        public ResponseEntity<?> getServicoById(@RequestParam Long id);
+        public ResponseEntity<ServicoDetalhadoDTO> getServicoById(@PathVariable Long id);
 
         // Buscar serviços por endereço do usuário
         @GetMapping("/usuario-endereco")
