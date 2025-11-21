@@ -40,6 +40,8 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    private String fotoPerfil;
+
     /* CONSTRUTORES */
     public Usuario(String nomeCompleto,
                    Date dataNascimento,
@@ -215,6 +217,10 @@ public class Usuario implements UserDetails {
         else
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
+
+    public String getFotoPerfil() { return fotoPerfil; }
+
+    public void setFotoPerfil(String fotoPerfil) { this.fotoPerfil = fotoPerfil; }
 
     @Override
     public String getPassword() {
