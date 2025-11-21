@@ -3,6 +3,8 @@ package com.UFMSPetSistemas.getpet.controller.servico;
 import com.UFMSPetSistemas.getpet.controller.servico.dto.ServicoResponseDTO;
 import com.UFMSPetSistemas.getpet.controller.servico.dto.AtualizarServicoDTO;
 import com.UFMSPetSistemas.getpet.controller.servico.dto.CadastroServicoDTO;
+import com.UFMSPetSistemas.getpet.controller.servico.dto.ServicoDetalhadoDTO;
+import com.UFMSPetSistemas.getpet.controller.servico.dto.PrestadorDTO;
 import com.UFMSPetSistemas.getpet.model.entities.Servico;
 import com.UFMSPetSistemas.getpet.model.entities.Categoria;
 import com.UFMSPetSistemas.getpet.model.entities.Usuario;
@@ -74,6 +76,7 @@ public class ServicoController implements IntServicoController {
     public List<ServicoResponseDTO> getAllServicos() {
         return servicoRepository.findAll().stream()
                 .map(servico -> new ServicoResponseDTO(
+                        servico.getId(),
                         servico.getTitulo(),
                         servico.getDescricao(),
                         servico.getValor(),
@@ -82,9 +85,37 @@ public class ServicoController implements IntServicoController {
     }
 
     @Override
-    public ResponseEntity<Servico> getServicoById(Long id) {
-        Optional<Servico> servico = servicoRepository.findById(id);
-        return servico.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ServicoDetalhadoDTO> getServicoById(Long id) {
+        Optional<Servico> servicoOptional = servicoRepository.findById(id);
+
+        if (servicoOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Servico servico = servicoOptional.get();
+        Usuario prestador = servico.getUsuarioPrestador();
+
+        String enderecoCompleto = String.format("%s, %s - %s",
+                prestador.getEndereco(),
+                prestador.getCidade(),
+                prestador.getUf());
+
+        PrestadorDTO prestadorDTO = new PrestadorDTO(
+                prestador.getNomeCompleto(),
+                enderecoCompleto,
+                prestador.getTelefone(),
+                0, // TODO: Implementar lógica de média de avaliações
+                0 // TODO: Implementar lógica de total de avaliações
+        );
+
+        ServicoDetalhadoDTO servicoDetalhadoDTO = new ServicoDetalhadoDTO(
+                servico.getId(),
+                servico.getTitulo(),
+                servico.getDescricao(),
+                servico.getValor(),
+                prestadorDTO);
+
+        return ResponseEntity.ok(servicoDetalhadoDTO);
     }
 
     @Override
