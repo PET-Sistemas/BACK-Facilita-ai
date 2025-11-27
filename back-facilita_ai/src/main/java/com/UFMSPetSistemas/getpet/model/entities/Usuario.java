@@ -70,7 +70,8 @@ public class Usuario implements UserDetails {
                    String endereco,
                    String cidade,
                    String uf,
-                   String telefone) {
+                   String telefone,
+                   String fotoPerfil) {
         this.email = email;
         this.senha = senha;
         this.role = role;
@@ -80,7 +81,7 @@ public class Usuario implements UserDetails {
         this.cidade = cidade;
         this.uf = uf;
         this.telefone = telefone;
-
+        this.fotoPerfil = fotoPerfil;
     }
 
     public Usuario() {

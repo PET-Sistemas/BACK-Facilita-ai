@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -52,7 +53,7 @@ public interface IntServicoController {
                                                         @ApiResponse(responseCode = "400", description = "Json inválido."),
                                         })
         @ResponseBody
-        public ResponseEntity<?> createServico(@RequestBody CadastroServicoDTO servicoDTO);
+        public ResponseEntity<?> createServico(@RequestBody CadastroServicoDTO servicoDTO, @AuthenticationPrincipal Usuario usuarioLogado);
 
         // Buscar todos os serviços
         @GetMapping(path = "/todos")

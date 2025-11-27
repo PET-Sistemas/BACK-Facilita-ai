@@ -15,7 +15,6 @@ public class MinioService {
 
     private final MinioClient minioClient;
     private final String bucketName;
-    private final String internalUrl;
     private final String publicUrl;
 
     public MinioService(
@@ -30,13 +29,9 @@ public class MinioService {
                 .credentials(accessKey, secretKey)
                 .build();
         this.bucketName = bucketName;
-        this.internalUrl = internalUrl;
         this.publicUrl = publicUrl;
     }
 
-    // -----------------------------
-    // UPLOAD
-    // -----------------------------
     public void upload(MultipartFile file, String objectName) {
         try {
             minioClient.putObject(
@@ -52,9 +47,6 @@ public class MinioService {
         }
     }
 
-    // -----------------------------
-    // GERAR URL PÚBLICA
-    // -----------------------------
     public String generatePresignedUrl(String objectName) {
         try {
             StatObjectResponse stat = minioClient.statObject(
@@ -80,17 +72,12 @@ public class MinioService {
                             )
                             .build()
             );
-
             return url.replace("http://minio:9000", publicUrl);
-
         } catch (Exception e) {
             throw new RuntimeException("Erro ao gerar URL", e);
         }
     }
 
-    // -----------------------------
-    // DOWNLOAD
-    // -----------------------------
     public byte[] getObject(String objectName) {
         try (InputStream stream = minioClient.getObject(
                 GetObjectArgs.builder()
@@ -117,9 +104,6 @@ public class MinioService {
         }
     }
 
-    // -----------------------------
-    // DELETE
-    // -----------------------------
     public void delete(String fileUrl) {
         try {
             String objectName = extractObjectName(fileUrl);
@@ -133,13 +117,10 @@ public class MinioService {
         }
     }
 
-    // -----------------------------
-    // EXTRAIR NOME DO OBJETO
-    // -----------------------------
     public String extractObjectName(String url) {
         try {
             URI uri = URI.create(url);
-            String path = uri.getPath(); // /bucket/usuarios/1/perfil-uuid
+            String path = uri.getPath();
             String prefix = "/" + bucketName + "/";
             if (path.startsWith(prefix)) {
                 path = path.substring(prefix.length());

@@ -2,24 +2,25 @@ package com.UFMSPetSistemas.getpet.controller.autenticacao;
 
 import com.UFMSPetSistemas.getpet.controller.autenticacao.dto.AutenticacaoDTO;
 import com.UFMSPetSistemas.getpet.controller.autenticacao.dto.RegistroDTO;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "Auth", description = "Endpoints para gerenciamento de login e registro.")
 public interface IntAutenticacaoController {
 
     @PostMapping(
-            consumes = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
 
@@ -31,10 +32,10 @@ public interface IntAutenticacaoController {
                     description = "Dados do novo usuário",
                     required = true,
                     content = @Content(
-                            mediaType = "application/json",
+                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
+                            schema = @Schema(implementation = RegistroDTO.class),
                             examples = @ExampleObject(
                                     name = "Exemplo de usuário",
-                                    summary = "JSON válido para criação de usuário",
                                     value = "{\n" +
                                             "  \"email\": \"gabriel@email.com\",\n" +
                                             "  \"senha\": \"senha123\",\n" +
@@ -92,8 +93,13 @@ public interface IntAutenticacaoController {
             }
     )
     @ResponseBody
-    ResponseEntity<?> register(@RequestBody RegistroDTO data);
+    ResponseEntity<?> register(
+            @Parameter(description = "Dados do usuário (form-data)", required = true)
+            @ModelAttribute RegistroDTO data, // Use ModelAttribute para form-data
 
+            @Parameter(description = "Arquivo de foto de perfil (.jpg, .png)")
+            @RequestPart(value = "fotoPerfil", required = false) MultipartFile foto
+    );
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE

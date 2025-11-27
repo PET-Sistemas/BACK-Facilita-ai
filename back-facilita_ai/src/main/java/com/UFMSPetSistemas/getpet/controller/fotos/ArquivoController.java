@@ -32,11 +32,10 @@ public class ArquivoController {
     ) {
 
         if (usuario.getFotoPerfil() != null) {
-            String oldObjectName = minioService.extractObjectName(usuario.getFotoPerfil());
             minioService.delete(usuario.getFotoPerfil());
         }
 
-        String objectName = "usuarios/" + usuario.getId() + "/perfil-" + UUID.randomUUID();
+        String objectName = "usuarios/perfil/" + usuario.getId() + UUID.randomUUID();
         minioService.upload(file, objectName);
 
         String url = minioService.generatePresignedUrl(objectName);
