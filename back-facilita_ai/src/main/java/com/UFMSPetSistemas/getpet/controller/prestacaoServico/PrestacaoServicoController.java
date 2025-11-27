@@ -1,10 +1,8 @@
 package com.UFMSPetSistemas.getpet.controller.prestacaoServico;
 
 import com.UFMSPetSistemas.getpet.controller.prestacaoServico.dto.AtualizarPrestacaoServicoDTO;
+import com.UFMSPetSistemas.getpet.controller.prestacaoServico.dto.AvaliacaoResponseDTO;
 import com.UFMSPetSistemas.getpet.controller.prestacaoServico.dto.CadastrarPrestacaoServicoDTO;
-import com.UFMSPetSistemas.getpet.controller.prestacaoServico.dto.PrestacaoServicoListDTO;
-import com.UFMSPetSistemas.getpet.controller.servico.dto.ServicoSimplificadoDTO; // <-- Import com caminho padronizado
-import com.UFMSPetSistemas.getpet.controller.usuario.dto.UsuarioSimplificadoDTO;   // <-- Import com caminho padronizado
 import com.UFMSPetSistemas.getpet.model.entities.PrestacaoServico;
 import com.UFMSPetSistemas.getpet.model.entities.Servico;
 import com.UFMSPetSistemas.getpet.model.entities.Usuario;
@@ -12,7 +10,8 @@ import com.UFMSPetSistemas.getpet.model.repository.PrestacaoServicoRepository;
 import com.UFMSPetSistemas.getpet.model.repository.ServicoRepository;
 import com.UFMSPetSistemas.getpet.model.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +23,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.time.LocalDate;
 
 @RestController
 @CrossOrigin
 public class PrestacaoServicoController implements IntPrestacaoServicoController {
+    private static final Logger logger = LoggerFactory.getLogger(PrestacaoServicoController.class);
     @Autowired
     private PrestacaoServicoRepository prestacaoServicoRepository;
     @Autowired
@@ -39,9 +41,11 @@ public class PrestacaoServicoController implements IntPrestacaoServicoController
     @Transactional
     public ResponseEntity<PrestacaoServico> registrar(CadastrarPrestacaoServicoDTO dto) {
         Usuario cliente = usuarioRepository.findById(dto.usuarioConsumidor())
-                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com ID: " + dto.usuarioConsumidor()));
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Cliente não encontrado com ID: " + dto.usuarioConsumidor()));
         Usuario prestador = usuarioRepository.findById(dto.usuarioPrestador())
-                .orElseThrow(() -> new EntityNotFoundException("Prestador não encontrado com ID: " + dto.usuarioPrestador()));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Prestador não encontrado com ID: " + dto.usuarioPrestador()));
         Servico servico = servicoRepository.findById(dto.servicoId())
                 .orElseThrow(() -> new EntityNotFoundException("Serviço não encontrado com ID: " + dto.servicoId()));
 
@@ -67,7 +71,9 @@ public class PrestacaoServicoController implements IntPrestacaoServicoController
     }
 
     @Override
-    public List<PrestacaoServico> getAll() { return prestacaoServicoRepository.findAll(); }
+    public List<PrestacaoServico> getAll() {
+        return prestacaoServicoRepository.findAll();
+    }
 
     @Override
     public ResponseEntity<PrestacaoServico> getPrestacaoServicoById(Long id) {
@@ -77,18 +83,22 @@ public class PrestacaoServicoController implements IntPrestacaoServicoController
 
     @Override
     public ResponseEntity<List<Servico>> listarPorAvaliacao(int avaliacaoMinima, int avaliacaoMaxima) {
-        List<Servico> servicos = prestacaoServicoRepository.findServicosByAvaliacaoBetween(avaliacaoMinima, avaliacaoMaxima);
+        List<Servico> servicos = prestacaoServicoRepository.findServicosByAvaliacaoBetween(avaliacaoMinima,
+                avaliacaoMaxima);
         return ResponseEntity.ok(servicos);
     }
 
     @Override
-    public ResponseEntity<List<PrestacaoServicoListDTO>> findByUsuarioPrestador(Long id) {
-        List<PrestacaoServico> prestacoes = prestacaoServicoRepository.findByUsuarioPrestador(id);
+    public ResponseEntity<List<AvaliacaoResponseDTO>> findByServicoId(@PathVariable Long id) {
+        logger.info("Buscando avaliações para o serviço com ID: {}", id);
+        List<PrestacaoServico> prestacoes = prestacaoServicoRepository.findByServicoId(id);
+        logger.info("Encontradas {} prestações de serviço para o ID: {}", prestacoes.size(), id);
 
-        List<PrestacaoServicoListDTO> resultadoDTO = prestacoes.stream()
-                .map(this::converterParaListDTO)
-                .collect(Collectors.toList());
-            
+        List<AvaliacaoResponseDTO> resultadoDTO = prestacoes.stream()
+                .map(this::converterParaAvaliacaoDTO)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        logger.info("Retornando {} DTOs de avaliação para o serviço ID: {}", resultadoDTO.size(), id);
         return ResponseEntity.ok(resultadoDTO);
     }
 
@@ -100,39 +110,27 @@ public class PrestacaoServicoController implements IntPrestacaoServicoController
         if (dto.avaliacao() != null) {
             prestacao.setAvaliacao(dto.avaliacao());
         }
-        
+
         PrestacaoServico prestacaoAtualizada = prestacaoServicoRepository.save(prestacao);
-        
+
         return ResponseEntity.ok(prestacaoAtualizada);
     }
 
     @Override
-    public ResponseEntity<Void> deletePrestacaoServico(Long id){
-        if (prestacaoServicoRepository.existsById(id)){
+    public ResponseEntity<Void> deletePrestacaoServico(Long id) {
+        if (prestacaoServicoRepository.existsById(id)) {
             prestacaoServicoRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }
-    
-    // Método auxiliar para converter a entidade em um DTO de lista
-    private PrestacaoServicoListDTO converterParaListDTO(PrestacaoServico p) {
-        ServicoSimplificadoDTO servicoDto = new ServicoSimplificadoDTO(
-                p.getServico().getId(),
-                p.getServico().getTitulo()
-        );
 
-        UsuarioSimplificadoDTO clienteDto = new UsuarioSimplificadoDTO(
-                p.getUsuarioConsumidor().getId(),
-                p.getUsuarioConsumidor().getNomeCompleto()
-        );
-
-        return new PrestacaoServicoListDTO(
-                p.getId(),
-                p.getDataprestacao().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+    private AvaliacaoResponseDTO converterParaAvaliacaoDTO(PrestacaoServico p) {
+        LocalDate dataPrestacao = new java.sql.Date(p.getDataprestacao().getTime()).toLocalDate();
+        return new AvaliacaoResponseDTO(
+                dataPrestacao,
                 p.getAvaliacao(),
-                servicoDto,
-                clienteDto
-        );
+                p.getAvaliacaodesc(),
+                p.getUsuarioConsumidor().getNomeCompleto());
     }
 }
