@@ -10,7 +10,8 @@ import java.util.List;
 
 public interface PrestacaoServicoRepository extends JpaRepository<PrestacaoServico, Long> {
 
-    List<Servico> findByServicoId(Long id);
+    @Query("SELECT p FROM PrestacaoServico p JOIN p.servico s WHERE s.id = :servicoId")
+    List<PrestacaoServico> findByServicoId(@Param("servicoId") Long servicoId);
 
     @Query("SELECT p.servico FROM PrestacaoServico p WHERE p.avaliacao BETWEEN :avaliacaoMinima AND :avaliacaoMaxima")
     List<Servico> findServicosByAvaliacaoBetween(

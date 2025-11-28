@@ -46,11 +46,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
 
-
                         .requestMatchers(HttpMethod.DELETE, "/prestacoes-servico").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/prestacoes-servico").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/prestacoes-servico").permitAll() // remover depois, limitar
+                                                                                             // para admin e user
                         .requestMatchers(HttpMethod.GET, "/prestacoes-servico/todos").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/prestacoes-servico/usuario/id").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/prestacoes-servico/servico/{id}/avaliacoes").permitAll()
                         .requestMatchers(HttpMethod.GET, "/prestacoes-servico/avaliacoes").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/prestacoes-servico/id").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/prestacoes-servico").hasAnyRole("USER", "ADMIN")
