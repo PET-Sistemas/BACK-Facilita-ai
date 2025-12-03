@@ -9,28 +9,13 @@ import java.time.LocalDate;
 
 @Schema(description = "DTO para registrar uma nova prestação de serviço.")
 public record CadastrarPrestacaoServicoDTO(
-    @NotNull(message = "A data da prestaçãos é obrigatória.")
-    @PastOrPresent(message = "A data da prestação não pode ser no futuro.")
-    @Schema(description = "Data em que o serviço foi realizado.", example = "2024-07-26", required = true)
-    LocalDate dataPrestacao,
+        @NotNull(message = "A data da prestaçãos é obrigatória.") @PastOrPresent(message = "A data da prestação não pode ser no futuro.") @Schema(description = "Data em que o serviço foi realizado.", example = "2024-07-26", required = true) LocalDate dataPrestacao,
 
-    @Min(value = 1, message = "A avaliação mínima é 1.")
-    @Max(value = 5, message = "A avaliação máxima é 5.")
-    @Schema(description = "Nota de avaliação opcional do serviço (de 1 a 5).", example = "5", required = false)
-    Integer avaliacao,
+        @Min(value = 1, message = "A avaliação mínima é 1.") @Max(value = 5, message = "A avaliação máxima é 5.") @Schema(description = "Nota de avaliação opcional do serviço (de 1 a 5).", example = "5", required = false) Integer avaliacao,
 
-    @Schema(description = "Comentário opcional sobre o serviço.", example = "Serviço rápido e eficiente.", required = false)
-    String avaliacaodesc,
+        @Schema(description = "Comentário opcional sobre o serviço.", example = "Serviço rápido e eficiente.", required = false) String avaliacaodesc,
 
-    @NotNull(message = "O ID do serviço não pode ser nulo.")
-    @Schema(description = "ID do serviço que foi prestado.", example = "15", required = true)
-    Long servicoId,
+        @NotNull(message = "O ID do serviço não pode ser nulo.") @Schema(description = "ID do serviço que foi prestado.", example = "15", required = true) Long servicoId,
 
-    @NotNull(message = "O ID do cliente não pode ser nulo.")
-    @Schema(description = "ID do usuário que contratou o serviço (cliente).", example = "2", required = true)
-    Long usuarioConsumidor,
-
-    @NotNull(message = "O ID do prestador não pode ser nulo.")
-    @Schema(description = "ID do usuário que realizou o serviço (prestador).", example = "1", required = true)
-    Long usuarioPrestador
-) {}
+        @NotNull(message = "O ID do cliente não pode ser nulo.") @Schema(description = "ID do usuário que contratou o serviço (cliente).", example = "2", required = true) Long usuarioConsumidor) {
+}

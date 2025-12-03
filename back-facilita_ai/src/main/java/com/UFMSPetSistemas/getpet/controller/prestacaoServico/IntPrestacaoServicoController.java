@@ -32,8 +32,7 @@ public interface IntPrestacaoServicoController {
                         "  \"avaliacao\": \"2\",\n" +
                         "  \"avaliacaodesc\": \"Serviço rápido e eficiente.\",\n" +
                         "  \"servicoId\": \"1\",\n" +
-                        "  \"usuarioConsumidor\": \"2\",\n" +
-                        "  \"usuarioPrestador\": \"1\"\n" +
+                        "  \"usuarioConsumidor\": \"2\"\n" +
                         "}"))))
         @ApiResponse(responseCode = "201", description = "Prestação de serviço registrada com sucesso", content = @Content(schema = @Schema(implementation = PrestacaoServico.class)))
         ResponseEntity<PrestacaoServico> registrar(@RequestBody @Valid CadastrarPrestacaoServicoDTO dto);
