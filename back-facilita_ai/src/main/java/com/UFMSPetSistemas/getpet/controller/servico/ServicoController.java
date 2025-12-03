@@ -12,6 +12,7 @@ import com.UFMSPetSistemas.getpet.model.repository.ServicoRepository;
 import com.UFMSPetSistemas.getpet.model.repository.CategoriaRepository;
 import com.UFMSPetSistemas.getpet.model.repository.UsuarioRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
@@ -33,7 +34,8 @@ public class ServicoController implements IntServicoController {
     }
 
     @Override
-    public ResponseEntity<?> createServico(@RequestBody CadastroServicoDTO servicoDTO) {
+    public ResponseEntity<?> createServico(@RequestBody CadastroServicoDTO servicoDTO,
+                                           @AuthenticationPrincipal Usuario usuarioLogado) {
         System.out.println("Dados recebidos: " + servicoDTO);
 
         try {
@@ -47,18 +49,12 @@ public class ServicoController implements IntServicoController {
                 return ResponseEntity.badRequest().body("Categoria não encontrada!");
             }
 
-            Optional<Usuario> usuarioPrestador = usuarioRepository.findById(servicoDTO.usuarioPrestadorID());
-
-            if (usuarioPrestador.isEmpty()) {
-                return ResponseEntity.badRequest().body("Usuario prestador não encontrado!");
-            }
-
             Servico servicoSalvo = this.servicoRepository.save(new Servico(
                     servicoDTO.titulo(),
                     servicoDTO.descricao(),
                     servicoDTO.valor(),
                     categoria.get(),
-                    usuarioPrestador.get()));
+                    usuarioLogado));
 
             System.out.println("Servico salvo: " + servicoSalvo);
 

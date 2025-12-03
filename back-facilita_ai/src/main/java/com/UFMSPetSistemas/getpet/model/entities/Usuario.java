@@ -40,6 +40,8 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    private String fotoPerfil;
+
     /* CONSTRUTORES */
     public Usuario(String nomeCompleto,
                    Date dataNascimento,
@@ -68,7 +70,8 @@ public class Usuario implements UserDetails {
                    String endereco,
                    String cidade,
                    String uf,
-                   String telefone) {
+                   String telefone,
+                   String fotoPerfil) {
         this.email = email;
         this.senha = senha;
         this.role = role;
@@ -78,7 +81,7 @@ public class Usuario implements UserDetails {
         this.cidade = cidade;
         this.uf = uf;
         this.telefone = telefone;
-
+        this.fotoPerfil = fotoPerfil;
     }
 
     public Usuario() {
@@ -215,6 +218,10 @@ public class Usuario implements UserDetails {
         else
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
+
+    public String getFotoPerfil() { return fotoPerfil; }
+
+    public void setFotoPerfil(String fotoPerfil) { this.fotoPerfil = fotoPerfil; }
 
     @Override
     public String getPassword() {

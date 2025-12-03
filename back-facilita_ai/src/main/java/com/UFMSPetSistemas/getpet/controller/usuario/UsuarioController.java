@@ -2,6 +2,7 @@ package com.UFMSPetSistemas.getpet.controller.usuario;
 
 import com.UFMSPetSistemas.getpet.controller.usuario.dto.AtualizarUsuarioDTO;
 import com.UFMSPetSistemas.getpet.controller.usuario.dto.ListarUsuariosDTO;
+import com.UFMSPetSistemas.getpet.controller.usuario.dto.PerfilDTO;
 import com.UFMSPetSistemas.getpet.model.entities.Usuario;
 import com.UFMSPetSistemas.getpet.model.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,8 +118,8 @@ public class UsuarioController implements IntUsuarioController {
 
     @Override
     public ResponseEntity<?> buscarLogado(@AuthenticationPrincipal Usuario usuarioLogado) {
-        var listarUsuariosDTO = new ListarUsuariosDTO(usuarioLogado);
-        return ResponseEntity.ok(listarUsuariosDTO);
+        var PerfilDTO = new PerfilDTO(usuarioLogado);
+        return ResponseEntity.ok(PerfilDTO);
     }
 
     @Override

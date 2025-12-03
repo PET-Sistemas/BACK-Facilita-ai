@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   db:
     image: postgres:16
@@ -11,6 +13,27 @@ services:
       - app-network
     ports:
       - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio
+    container_name: getpet_minio
+    restart: always
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_SERVER_URL: http://localhost:9000
+      MINIO_BROWSER_REDIRECT_URL: http://localhost:9001
+    command: server /data --console-address ":9001"
+    networks:
+      - app-network
+
   api:
     build:
       context: ./back-facilita_ai
@@ -22,12 +45,27 @@ services:
       DATABASE_USER: getpet
       DATABASE_PASSWORD: getpet
       DATABASE_NAME: getpet
+
+      STORAGE_TYPE: minio
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_PUBLIC_URL_HOST: http://minio:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_BUCKET_NAME: fotos-app
+      MINIO_SECURE: "false"
+
+      MINIO_URL: http://minio:9000
+
+      MINIO_INTERNAL_ENDPOINT: http://minio:9000
+      MINIO_PUBLIC_URL: http://localhost:9000
+
     networks:
       - app-network
     ports:
       - "8080:8080"
     depends_on:
       - db
+      - minio
 
   frontend:
     build: ../FRONT-Facilita-ai
@@ -42,6 +80,7 @@ services:
 
 volumes:
   postgres-data:
+  minio_data:
 
 networks:
   app-network:

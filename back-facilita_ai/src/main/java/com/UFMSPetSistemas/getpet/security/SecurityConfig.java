@@ -64,6 +64,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/servico/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/servico/categoria/id").hasAnyRole("USER", "ADMIN")
 
+                        .requestMatchers(HttpMethod.POST, "/files/upload").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/files/upload/profile").hasAnyRole("USER", "ADMIN")
+
+
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
