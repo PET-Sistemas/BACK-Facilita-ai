@@ -2,6 +2,7 @@ package com.UFMSPetSistemas.getpet.controller.servico;
 
 import com.UFMSPetSistemas.getpet.controller.servico.dto.AtualizarServicoDTO;
 import com.UFMSPetSistemas.getpet.controller.servico.dto.CadastroServicoDTO;
+import com.UFMSPetSistemas.getpet.controller.servico.dto.ServicoAvaliacaoDTO;
 import com.UFMSPetSistemas.getpet.controller.servico.dto.ServicoDetalhadoDTO;
 import com.UFMSPetSistemas.getpet.controller.servico.dto.ServicoResponseDTO;
 import com.UFMSPetSistemas.getpet.model.entities.Servico;
@@ -47,7 +48,8 @@ public interface IntServicoController {
                                                                                         "  \"valor\": 150.00,\n" +
                                                                                         "  \"categoria\": { \"id\": 1, \"titulo\": \"Pintura\" },\n"
                                                                                         +
-                                                                                        "  \"usuarioPrestadorId\": 1\n" +
+                                                                                        "  \"usuarioPrestadorId\": 1\n"
+                                                                                        +
                                                                                         "}")
                                                         }, mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Usuario.class))),
                                                         @ApiResponse(responseCode = "400", description = "Json inválido."),
@@ -190,4 +192,9 @@ public interface IntServicoController {
                                         @ApiResponse(responseCode = "200", description = "Serviço deletado com sucesso.", content = @Content(examples = @ExampleObject(name = "Serviço deletado com sucesso.", summary = "", description = "", value = "Sem retorno."), mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Usuario.class))),
                         })
         public ResponseEntity<Void> deleteServico(@RequestParam Long id);
+
+        // Buscar dados do serviço para avaliação
+        @GetMapping("/{id}/avaliacao")
+        @Operation(summary = "Buscar dados do serviço para avaliação")
+        ResponseEntity<ServicoAvaliacaoDTO> getServicoParaAvaliacao(@PathVariable Long id);
 }

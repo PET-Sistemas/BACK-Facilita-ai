@@ -43,11 +43,9 @@ public class PrestacaoServicoController implements IntPrestacaoServicoController
         Usuario cliente = usuarioRepository.findById(dto.usuarioConsumidor())
                 .orElseThrow(
                         () -> new EntityNotFoundException("Cliente não encontrado com ID: " + dto.usuarioConsumidor()));
-        Usuario prestador = usuarioRepository.findById(dto.usuarioPrestador())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Prestador não encontrado com ID: " + dto.usuarioPrestador()));
         Servico servico = servicoRepository.findById(dto.servicoId())
                 .orElseThrow(() -> new EntityNotFoundException("Serviço não encontrado com ID: " + dto.servicoId()));
+        Usuario prestador = servico.getUsuarioPrestador();
 
         PrestacaoServico novaPrestacao = new PrestacaoServico();
         novaPrestacao.setUsuarioConsumidor(cliente);

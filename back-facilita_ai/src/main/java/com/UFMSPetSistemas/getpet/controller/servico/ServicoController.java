@@ -1,5 +1,7 @@
 package com.UFMSPetSistemas.getpet.controller.servico;
 
+import com.UFMSPetSistemas.getpet.controller.servico.dto.ServicoAvaliacaoDTO;
+import com.UFMSPetSistemas.getpet.controller.servico.dto.PrestadorAvaliacaoDTO;
 import com.UFMSPetSistemas.getpet.controller.servico.dto.ServicoResponseDTO;
 import com.UFMSPetSistemas.getpet.controller.servico.dto.AtualizarServicoDTO;
 import com.UFMSPetSistemas.getpet.controller.servico.dto.CadastroServicoDTO;
@@ -170,5 +172,20 @@ public class ServicoController implements IntServicoController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @Override
+    public ResponseEntity<ServicoAvaliacaoDTO> getServicoParaAvaliacao(Long id) {
+        return servicoRepository.findById(id)
+                .map(servico -> {
+                    Usuario prestador = servico.getUsuarioPrestador();
+                    PrestadorAvaliacaoDTO prestadorDTO = new PrestadorAvaliacaoDTO(
+                            prestador.getNomeCompleto());
+                    ServicoAvaliacaoDTO servicoDTO = new ServicoAvaliacaoDTO(
+                            servico.getTitulo(),
+                            prestadorDTO);
+                    return ResponseEntity.ok(servicoDTO);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 }
