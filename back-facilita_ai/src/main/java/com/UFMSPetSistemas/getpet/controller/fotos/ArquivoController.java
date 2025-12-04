@@ -47,7 +47,7 @@ public class ArquivoController {
             String objectName = "usuarios/perfil/" + usuario.getId() + UUID.randomUUID();
             minioService.upload(file, objectName);
 
-            String url = minioService.generatePresignedUrl(objectName);
+            String url = objectName;
             usuario.setFotoPerfil(url);
             usuarioRepo.save(usuario);
 
