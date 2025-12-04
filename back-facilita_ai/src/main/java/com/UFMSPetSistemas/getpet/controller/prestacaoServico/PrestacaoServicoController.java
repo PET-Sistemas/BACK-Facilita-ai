@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -39,16 +40,13 @@ public class PrestacaoServicoController implements IntPrestacaoServicoController
 
     @Override
     @Transactional
-    public ResponseEntity<PrestacaoServico> registrar(CadastrarPrestacaoServicoDTO dto) {
-        Usuario cliente = usuarioRepository.findById(dto.usuarioConsumidor())
-                .orElseThrow(
-                        () -> new EntityNotFoundException("Cliente não encontrado com ID: " + dto.usuarioConsumidor()));
+    public ResponseEntity<PrestacaoServico> registrar(CadastrarPrestacaoServicoDTO dto, @AuthenticationPrincipal Usuario usuarioLogado) {
         Servico servico = servicoRepository.findById(dto.servicoId())
                 .orElseThrow(() -> new EntityNotFoundException("Serviço não encontrado com ID: " + dto.servicoId()));
         Usuario prestador = servico.getUsuarioPrestador();
 
         PrestacaoServico novaPrestacao = new PrestacaoServico();
-        novaPrestacao.setUsuarioConsumidor(cliente);
+        novaPrestacao.setUsuarioConsumidor(usuarioLogado);
         novaPrestacao.setUsuarioPrestador(prestador);
         novaPrestacao.setServico(servico);
         novaPrestacao.setDataprestacao(Date.from(dto.dataPrestacao().atStartOfDay(ZoneId.systemDefault()).toInstant()));

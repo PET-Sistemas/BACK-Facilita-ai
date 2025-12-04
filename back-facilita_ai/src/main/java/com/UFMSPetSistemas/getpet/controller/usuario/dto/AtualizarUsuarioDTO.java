@@ -22,6 +22,9 @@ public record AtualizarUsuarioDTO(String email,
 
                                   @JsonProperty("uf") String uf,
 
-                                  @JsonProperty("telefone") String telefone
+                                  @JsonProperty("telefone") String telefone,
+
+                                  String profilePicture
+
 ) {
 }

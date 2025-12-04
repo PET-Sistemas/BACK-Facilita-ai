@@ -15,7 +15,5 @@ public record CadastrarPrestacaoServicoDTO(
 
         @Schema(description = "Comentário opcional sobre o serviço.", example = "Serviço rápido e eficiente.", required = false) String avaliacaodesc,
 
-        @NotNull(message = "O ID do serviço não pode ser nulo.") @Schema(description = "ID do serviço que foi prestado.", example = "15", required = true) Long servicoId,
-
-        @NotNull(message = "O ID do cliente não pode ser nulo.") @Schema(description = "ID do usuário que contratou o serviço (cliente).", example = "2", required = true) Long usuarioConsumidor) {
+        @NotNull(message = "O ID do serviço não pode ser nulo.") @Schema(description = "ID do serviço que foi prestado.", example = "15", required = true) Long servicoId ){
 }

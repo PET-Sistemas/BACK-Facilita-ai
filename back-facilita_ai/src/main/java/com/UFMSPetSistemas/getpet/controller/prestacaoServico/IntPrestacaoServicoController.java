@@ -2,10 +2,10 @@ package com.UFMSPetSistemas.getpet.controller.prestacaoServico;
 
 import com.UFMSPetSistemas.getpet.controller.prestacaoServico.dto.AtualizarPrestacaoServicoDTO;
 import com.UFMSPetSistemas.getpet.controller.prestacaoServico.dto.CadastrarPrestacaoServicoDTO;
-import com.UFMSPetSistemas.getpet.controller.prestacaoServico.dto.PrestacaoServicoListDTO;
 import com.UFMSPetSistemas.getpet.controller.prestacaoServico.dto.AvaliacaoResponseDTO;
 import com.UFMSPetSistemas.getpet.model.entities.PrestacaoServico;
 import com.UFMSPetSistemas.getpet.model.entities.Servico;
+import com.UFMSPetSistemas.getpet.model.entities.Usuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -35,7 +36,7 @@ public interface IntPrestacaoServicoController {
                         "  \"usuarioConsumidor\": \"2\"\n" +
                         "}"))))
         @ApiResponse(responseCode = "201", description = "Prestação de serviço registrada com sucesso", content = @Content(schema = @Schema(implementation = PrestacaoServico.class)))
-        ResponseEntity<PrestacaoServico> registrar(@RequestBody @Valid CadastrarPrestacaoServicoDTO dto);
+        ResponseEntity<PrestacaoServico> registrar(@RequestBody @Valid CadastrarPrestacaoServicoDTO dto, @AuthenticationPrincipal Usuario usuarioLogado);
 
         @GetMapping(path = "/todos")
         @Operation(summary = "Listar todas a prestações de serviços")
