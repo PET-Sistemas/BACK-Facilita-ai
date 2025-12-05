@@ -68,7 +68,7 @@ public class AutenticacaoController implements IntAutenticacaoController {
         if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
             String objectName = "usuarios/perfil/" + novoUsuario.getId().toString() + UUID.randomUUID();
             minioService.upload(fotoPerfil, objectName);
-            novoUsuario.setFotoPerfil(minioService.generatePresignedUrl(objectName));
+            novoUsuario.setFotoPerfil(objectName);
             this.repository.save(novoUsuario);
         }
 

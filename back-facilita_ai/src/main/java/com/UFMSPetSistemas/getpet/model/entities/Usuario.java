@@ -40,6 +40,7 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @Column(columnDefinition = "TEXT")
     private String fotoPerfil;
 
     /* CONSTRUTORES */

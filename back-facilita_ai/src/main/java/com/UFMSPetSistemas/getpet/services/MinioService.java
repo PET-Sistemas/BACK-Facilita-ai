@@ -118,17 +118,33 @@ public class MinioService {
     }
 
     public String extractObjectName(String url) {
+        if (url == null || url.trim().isEmpty()) {
+            return null;
+        }
         try {
-            URI uri = URI.create(url);
-            String path = uri.getPath();
-            String prefix = "/" + bucketName + "/";
-            if (path.startsWith(prefix)) {
-                path = path.substring(prefix.length());
+
+            if (url.contains("?")) {
+                url = url.substring(0, url.indexOf("?"));
             }
 
-            int qm = path.indexOf("?");
-            if (qm != -1) {
-                path = path.substring(0, qm);
+            if (url.startsWith("blob:")) {
+                return null;
+            }
+            URI uri = new URI(url);
+            String path = uri.getPath();
+
+            String bucketName = "fotos-app";
+
+            if (path.startsWith("/")) {
+                path = path.substring(1);
+            }
+
+            if (path.startsWith(bucketName + "/")) {
+                return path.substring(bucketName.length() + 1);
+            }
+
+            if (path.contains("usuarios/")) {
+                return path.substring(path.indexOf("usuarios/"));
             }
 
             return path;

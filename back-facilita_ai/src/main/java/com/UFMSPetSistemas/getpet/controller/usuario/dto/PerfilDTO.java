@@ -13,8 +13,7 @@ public record PerfilDTO(Long id,
                                 String endereco,
                                 String cidade,
                                 String uf,
-                                String telefone,
-                                String fotoPerfil){
+                                String telefone){
     public PerfilDTO(Usuario usuario) {
         this(usuario.getId(),
                 usuario.getEmail(),
@@ -24,8 +23,7 @@ public record PerfilDTO(Long id,
                 usuario.getEndereco(),
                 usuario.getCidade(),
                 usuario.getUf(),
-                usuario.getTelefone(),
-                usuario.getFotoPerfil()
+                usuario.getTelefone()
         );
     }
 }

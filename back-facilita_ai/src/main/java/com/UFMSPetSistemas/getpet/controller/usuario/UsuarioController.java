@@ -88,26 +88,30 @@ public class UsuarioController implements IntUsuarioController {
     }
 
     @Override
-    public ResponseEntity<?> putUsuario(final AtualizarUsuarioDTO data, final Long id) {
+    public ResponseEntity<?> putUsuario(final AtualizarUsuarioDTO data, @AuthenticationPrincipal Usuario usuarioLogado) {
         try {
-            Usuario usuario = this.repo.findById(id).orElseThrow(() -> new Exception("Usuario com ID " + id + " não encontrado."));
-            usuario.setEmail(data.email());
-            usuario.setRole(data.role());
-            usuario.setNomeCompleto(data.nomeCompleto());
-            usuario.setDataNascimento(data.dataNascimento());
-            usuario.setEndereco(data.endereco());
-            usuario.setCidade(data.cidade());
-            usuario.setUf(data.uf());
-            usuario.setTelefone(data.telefone());
+            usuarioLogado.setEmail(data.email());
+            usuarioLogado.setRole(data.role());
+            usuarioLogado.setNomeCompleto(data.nomeCompleto());
+            usuarioLogado.setDataNascimento(data.dataNascimento());
+            usuarioLogado.setEndereco(data.endereco());
+            usuarioLogado.setCidade(data.cidade());
+            usuarioLogado.setUf(data.uf());
+            usuarioLogado.setTelefone(data.telefone());
+
+            if (data.profilePicture() != null) {
+                usuarioLogado.setFotoPerfil(data.profilePicture());
+            }
 
             if (data.senha() != null && !data.senha().trim().isEmpty()) {
                 String encryptedPassword = this.passwordEncoder.encode(data.senha());
-                usuario.setSenha(encryptedPassword);
+                usuarioLogado.setSenha(encryptedPassword);
             }
 
-            this.repo.save(usuario);
+            this.repo.save(usuarioLogado);
+            var PerfilDTO = new PerfilDTO(usuarioLogado);
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(PerfilDTO);
 
         } catch (Exception e) {
             System.err.println("Erro ao atualizar: " + e.getMessage());

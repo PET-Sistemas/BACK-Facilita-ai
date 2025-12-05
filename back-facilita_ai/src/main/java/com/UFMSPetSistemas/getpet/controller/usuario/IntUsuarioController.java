@@ -7,6 +7,7 @@ import com.UFMSPetSistemas.getpet.controller.usuario.dto.ListarUsuariosDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -227,7 +228,7 @@ public interface IntUsuarioController {
                                     summary = "",
                                     description = "",
                                     value = "{" +
-                                            "  \"id\": 1,\n" +
+                                            "  \"id\": 1, \n" +
                                             "  \"nomeCompleto\": \"Felipe\",\n" +
                                             "  \"dataNascimento\": \"1989-12-31\",\n" +
                                             "  \"endereco\": \"Rua das Flores, 123\",\n" +
@@ -252,7 +253,7 @@ public interface IntUsuarioController {
                     @ApiResponse(responseCode = "422", description = "Erro ao atualizar usuário.")
             }
     )
-    public ResponseEntity<?> putUsuario(@RequestBody @Valid AtualizarUsuarioDTO data, @RequestParam Long id);
+    public ResponseEntity<?> putUsuario(@RequestBody @Valid AtualizarUsuarioDTO data, @AuthenticationPrincipal Usuario usuarioLogado);
 
     @DeleteMapping
     @Operation(
