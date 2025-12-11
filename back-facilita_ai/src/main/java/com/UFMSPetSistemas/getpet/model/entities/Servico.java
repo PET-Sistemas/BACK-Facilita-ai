@@ -1,6 +1,10 @@
 package com.UFMSPetSistemas.getpet.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Servico {
@@ -21,6 +25,10 @@ public class Servico {
     @ManyToOne
     @JoinColumn(name = "usuario_prestador_id")
     private Usuario usuarioPrestador;
+
+    @OneToMany(mappedBy = "servico")
+    @JsonIgnore
+    private List<PrestacaoServico> prestacoes;
 
     public Servico(
                    String titulo,
@@ -84,6 +92,33 @@ public class Servico {
 
     public void setUsuarioPrestador(Usuario usuarioPrestador) {
         this.usuarioPrestador = usuarioPrestador;
+    }
+
+    public Double getMediaAvaliacoes() {
+        if (prestacoes == null || prestacoes.isEmpty()) {
+            return 0.0;
+        }
+        double soma = 0.0;
+        int contador = 0;
+
+        for (PrestacaoServico p : prestacoes) {
+            if (p.getAvaliacao() != null) {
+                soma += p.getAvaliacao();
+                contador++;
+            }
+        }
+
+        if (contador == 0) return 0.0;
+
+        return soma / contador;
+    }
+
+    public Integer getTotalAvaliacoes() {
+        if (prestacoes == null) return 0;
+
+        return (int) prestacoes.stream()
+                .filter(p -> p.getAvaliacao() != null)
+                .count();
     }
 }
 

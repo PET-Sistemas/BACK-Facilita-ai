@@ -13,10 +13,12 @@ import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.time.ZoneId;
@@ -34,8 +36,6 @@ public class PrestacaoServicoController implements IntPrestacaoServicoController
     @Autowired
     private PrestacaoServicoRepository prestacaoServicoRepository;
     @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
     private ServicoRepository servicoRepository;
 
     @Override
@@ -43,13 +43,23 @@ public class PrestacaoServicoController implements IntPrestacaoServicoController
     public ResponseEntity<PrestacaoServico> registrar(CadastrarPrestacaoServicoDTO dto, @AuthenticationPrincipal Usuario usuarioLogado) {
         Servico servico = servicoRepository.findById(dto.servicoId())
                 .orElseThrow(() -> new EntityNotFoundException("Serviço não encontrado com ID: " + dto.servicoId()));
+
         Usuario prestador = servico.getUsuarioPrestador();
 
-        PrestacaoServico novaPrestacao = new PrestacaoServico();
-        novaPrestacao.setUsuarioConsumidor(usuarioLogado);
-        novaPrestacao.setUsuarioPrestador(prestador);
-        novaPrestacao.setServico(servico);
+        if (usuarioLogado.getId().equals(prestador.getId()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é permitido avaliar o próprio serviço.");
+
+        PrestacaoServico novaPrestacao = prestacaoServicoRepository
+                .findByUsuarioConsumidorAndServico(usuarioLogado, servico)
+                .orElse(new PrestacaoServico());
+
+        if (novaPrestacao.getId() == null) {
+            novaPrestacao.setUsuarioConsumidor(usuarioLogado);
+            novaPrestacao.setUsuarioPrestador(prestador);
+            novaPrestacao.setServico(servico);
+        }
         novaPrestacao.setDataprestacao(Date.from(dto.dataPrestacao().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+
         if (dto.avaliacao() != null) {
             novaPrestacao.setAvaliacao(dto.avaliacao());
         }

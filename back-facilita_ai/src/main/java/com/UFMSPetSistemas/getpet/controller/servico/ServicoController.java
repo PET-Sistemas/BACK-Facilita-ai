@@ -111,7 +111,9 @@ public class ServicoController implements IntServicoController {
                 servico.getTitulo(),
                 servico.getDescricao(),
                 servico.getValor(),
-                prestadorDTO);
+                prestadorDTO,
+                servico.getMediaAvaliacoes(),
+                servico.getTotalAvaliacoes());
 
         return ResponseEntity.ok(servicoDetalhadoDTO);
     }

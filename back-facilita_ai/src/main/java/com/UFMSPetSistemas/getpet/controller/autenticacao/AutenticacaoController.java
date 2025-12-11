@@ -6,7 +6,8 @@ import com.UFMSPetSistemas.getpet.controller.autenticacao.dto.LoginResponseDTO;
 import com.UFMSPetSistemas.getpet.controller.autenticacao.dto.RegistroDTO;
 import com.UFMSPetSistemas.getpet.model.entities.Usuario;
 import com.UFMSPetSistemas.getpet.model.repository.UsuarioRepository;
-import com.UFMSPetSistemas.getpet.security.TokenService;
+import com.UFMSPetSistemas.getpet.services.PasswordResetService;
+import com.UFMSPetSistemas.getpet.services.TokenService;
 import com.UFMSPetSistemas.getpet.services.MinioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import jakarta.validation.Valid;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -39,6 +41,9 @@ public class AutenticacaoController implements IntAutenticacaoController {
 
     @Autowired
     private MinioService minioService;
+
+    @Autowired
+    private PasswordResetService service;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AutenticacaoDTO data) {
@@ -72,6 +77,18 @@ public class AutenticacaoController implements IntAutenticacaoController {
             this.repository.save(novoUsuario);
         }
 
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/esqueci-senha")
+    public ResponseEntity<Void> esqueciSenha(@RequestBody Map<String, String> payload) {
+        service.solicitarRecuperacao(payload.get("email"));
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/resetar-senha")
+    public ResponseEntity<Void> resetarSenha(@RequestBody Map<String, String> payload) {
+        service.trocarSenha(payload.get("token"), payload.get("novaSenha"));
         return ResponseEntity.ok().build();
     }
 }

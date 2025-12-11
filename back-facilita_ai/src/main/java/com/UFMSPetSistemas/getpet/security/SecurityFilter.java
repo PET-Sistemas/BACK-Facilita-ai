@@ -1,6 +1,7 @@
 package com.UFMSPetSistemas.getpet.security;
 
 import com.UFMSPetSistemas.getpet.model.repository.UsuarioRepository;
+import com.UFMSPetSistemas.getpet.services.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

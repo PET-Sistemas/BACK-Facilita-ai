@@ -13,7 +13,7 @@ public class PrestacaoServico {
     @Temporal(TemporalType.DATE)
     private Date dataprestacao;
 
-    private int avaliacao;
+    private Integer avaliacao;
 
     private String avaliacaodesc;
 
@@ -46,11 +46,11 @@ public class PrestacaoServico {
         this.dataprestacao = dataprestacao;
     }
 
-    public int getAvaliacao() {
+    public Integer getAvaliacao() {
         return avaliacao;
     }
 
-    public void setAvaliacao(int avaliacao) {
+    public void setAvaliacao(Integer avaliacao) {
         this.avaliacao = avaliacao;
     }
 

@@ -1,4 +1,4 @@
-package com.UFMSPetSistemas.getpet.security;
+package com.UFMSPetSistemas.getpet.services;
 
 import com.UFMSPetSistemas.getpet.model.entities.Usuario;
 import com.auth0.jwt.JWT;
