@@ -59,6 +59,9 @@ services:
       MINIO_INTERNAL_ENDPOINT: http://minio:9000
       MINIO_PUBLIC_URL: http://localhost:9000
 
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+
     networks:
       - app-network
     ports:
