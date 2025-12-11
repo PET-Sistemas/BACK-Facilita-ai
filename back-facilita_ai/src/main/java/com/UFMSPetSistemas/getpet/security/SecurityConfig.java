@@ -45,6 +45,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/usuario").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/esqueci-senha").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/resetar-senha").permitAll()
 
                         .requestMatchers(HttpMethod.DELETE, "/prestacoes-servico").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/prestacoes-servico").permitAll() // remover depois, limitar

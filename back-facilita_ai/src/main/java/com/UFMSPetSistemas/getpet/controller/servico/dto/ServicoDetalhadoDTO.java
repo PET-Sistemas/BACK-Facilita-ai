@@ -5,5 +5,7 @@ public record ServicoDetalhadoDTO(
         String titulo,
         String descricao,
         double valor,
-        PrestadorDTO prestador) {
+        PrestadorDTO prestador,
+        double mediaAvaliacoes,
+        int totalAvaliacoes) {
 }

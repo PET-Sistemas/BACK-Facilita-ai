@@ -1,5 +1,7 @@
 package com.UFMSPetSistemas.getpet.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -42,6 +44,10 @@ public class Usuario implements UserDetails {
 
     @Column(columnDefinition = "TEXT")
     private String fotoPerfil;
+
+    @OneToMany(mappedBy = "usuarioPrestador", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<PrestacaoServico> servicosPrestados;
 
     /* CONSTRUTORES */
     public Usuario(String nomeCompleto,
@@ -252,5 +258,25 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @JsonProperty("stars")
+    public Double getMediaGeral() {
+        if (servicosPrestados == null || servicosPrestados.isEmpty()) {
+            return 0.0;
+        }
+
+        double soma = 0.0;
+        int contador = 0;
+
+        for (PrestacaoServico p : servicosPrestados) {
+            if (p.getAvaliacao() != null) {
+                soma += p.getAvaliacao();
+                contador++;
+            }
+        }
+        if (contador == 0) return 0.0;
+
+        return soma / contador;
     }
 }

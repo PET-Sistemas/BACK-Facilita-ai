@@ -2,11 +2,13 @@ package com.UFMSPetSistemas.getpet.model.repository;
 
 import com.UFMSPetSistemas.getpet.model.entities.PrestacaoServico;
 import com.UFMSPetSistemas.getpet.model.entities.Servico;
+import com.UFMSPetSistemas.getpet.model.entities.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PrestacaoServicoRepository extends JpaRepository<PrestacaoServico, Long> {
 
@@ -22,4 +24,7 @@ public interface PrestacaoServicoRepository extends JpaRepository<PrestacaoServi
     // Consulta personalizada para comparar o ID do usuarioPrestador
     @Query("SELECT p FROM PrestacaoServico p WHERE p.usuarioPrestador.id = :usuarioPrestadorId")
     List<PrestacaoServico> findByUsuarioPrestador(@Param("usuarioPrestadorId") Long usuarioPrestadorId);
+
+
+    Optional<PrestacaoServico> findByUsuarioConsumidorAndServico(Usuario usuarioConsumidor, Servico servico);
 }
